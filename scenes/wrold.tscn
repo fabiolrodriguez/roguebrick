@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dtp3wvx20f6g4"]
+
+[ext_resource type="Texture2D" uid="uid://jq55unp6xmw1" path="res://assets/bg-resized.png" id="1_w04al"]
+[ext_resource type="PackedScene" uid="uid://dpfa4erbdltn0" path="res://scenes/player.tscn" id="2_rfnaa"]
+[ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
+size = Vector2(15, 513)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfnaa"]
+size = Vector2(677, 13)
+
+[node name="level" type="Node2D" unique_id=128924603]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=930485654]
+position = Vector2(329.9999, 251.99997)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("1_w04al")
+
+[node name="left_wall" type="Area2D" parent="." unique_id=69354390]
+
+[node name="left_collider" type="CollisionShape2D" parent="left_wall" unique_id=2056553325]
+position = Vector2(-2.5, 246.5)
+shape = SubResource("RectangleShape2D_w04al")
+
+[node name="right_wall" type="Area2D" parent="." unique_id=1439784378]
+
+[node name="right_collider" type="CollisionShape2D" parent="right_wall" unique_id=113880498]
+position = Vector2(661.5, 246.5)
+shape = SubResource("RectangleShape2D_w04al")
+
+[node name="top_wall" type="Area2D" parent="." unique_id=883278961]
+
+[node name="top_collider" type="CollisionShape2D" parent="top_wall" unique_id=495563752]
+position = Vector2(328.5, 0.5)
+shape = SubResource("RectangleShape2D_rfnaa")
+
+[node name="deadzone" type="Area2D" parent="." unique_id=1497936786]
+
+[node name="bottom_collider" type="CollisionShape2D" parent="deadzone" unique_id=1931373933]
+position = Vector2(328.5, 492.5)
+shape = SubResource("RectangleShape2D_rfnaa")
+debug_color = Color(0.8545987, 0.1155638, 0.3215628, 0.41960785)
+
+[node name="player" parent="." unique_id=844076782 instance=ExtResource("2_rfnaa")]
+position = Vector2(328, 476)
+
+[node name="ball" parent="." unique_id=307636038 instance=ExtResource("3_ninex")]
