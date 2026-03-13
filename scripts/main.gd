@@ -7,6 +7,5 @@ extends Node2D
 func _on_deadzone_body_entered(body):
 	print(body)
 	print(body.get_script())	
-	#if body.name == "ball":
-		#print("ma oeee")
-		#body.stick_to_player()
+	if body.name == "ball":
+		body.call_deferred("stick_to_player")

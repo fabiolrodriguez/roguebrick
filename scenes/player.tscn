@@ -8,14 +8,14 @@ size = Vector2(100, 20)
 
 [node name="player" type="Node2D" unique_id=844076782]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=419524067]
+[node name="paddle" type="CharacterBody2D" parent="." unique_id=419524067]
 collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_g2els")
 
-[node name="texture" type="Sprite2D" parent="CharacterBody2D" unique_id=606745247]
+[node name="texture" type="Sprite2D" parent="paddle" unique_id=606745247]
 texture = ExtResource("2_qhqgy")
 
-[node name="collider" type="CollisionShape2D" parent="CharacterBody2D" unique_id=185734391]
+[node name="collider" type="CollisionShape2D" parent="paddle" unique_id=185734391]
 shape = SubResource("RectangleShape2D_dqkch")
 debug_color = Color(0.6540413, 0.51670396, 0.10081378, 0.41960785)
