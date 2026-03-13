@@ -26,6 +26,11 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 
 	if collision:
+		var collider = collision.get_collider()
+
+		if collider.has_method("hit"):
+			collider.hit()
+		
 		velocity = velocity.bounce(collision.get_normal()).normalized() * speed
 
 func launch():

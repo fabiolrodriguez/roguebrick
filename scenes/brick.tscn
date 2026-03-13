@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bois2dx5b7vb4"]
+
+[ext_resource type="Script" uid="uid://cwgaiqyb68qpy" path="res://scripts/brick.gd" id="1_5l4w1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jurt7"]
+size = Vector2(136, 37)
+
+[node name="brick" type="StaticBody2D" unique_id=97388442]
+script = ExtResource("1_5l4w1")
+
+[node name="collider" type="CollisionShape2D" parent="." unique_id=1721378453]
+position = Vector2(1, -0.5)
+shape = SubResource("RectangleShape2D_jurt7")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=615326441]
+position = Vector2(-67, -18)
+color = Color(1, 0.64705884, 1, 1)
+polygon = PackedVector2Array(-1, -1, 137, -1, 135, 38, -1, 38)
