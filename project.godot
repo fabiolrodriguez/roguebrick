@@ -28,6 +28,11 @@ window/stretch/mode="canvas_items"
 2d_render/layer_3="ball"
 2d_render/layer_4="player"
 2d_render/layer_5="endzone"
+2d_physics/layer_1="background"
+2d_physics/layer_2="walls"
+2d_physics/layer_3="ball"
+2d_physics/layer_4="player"
+2d_physics/layer_5="endzone"
 
 [physics]
 
