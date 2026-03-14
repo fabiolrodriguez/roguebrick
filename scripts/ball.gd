@@ -30,7 +30,7 @@ func _physics_process(delta):
 
 		if collider.has_method("hit"):
 			collider.hit()
-		
+			speed += 10
 		velocity = velocity.bounce(collision.get_normal()).normalized() * speed
 
 func launch():

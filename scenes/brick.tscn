@@ -3,16 +3,16 @@
 [ext_resource type="Script" uid="uid://cwgaiqyb68qpy" path="res://scripts/brick.gd" id="1_5l4w1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurt7"]
-size = Vector2(136, 37)
+size = Vector2(117, 30)
 
 [node name="brick" type="StaticBody2D" unique_id=97388442]
 script = ExtResource("1_5l4w1")
 
 [node name="collider" type="CollisionShape2D" parent="." unique_id=1721378453]
-position = Vector2(1, -0.5)
+position = Vector2(56.5, 13)
 shape = SubResource("RectangleShape2D_jurt7")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=615326441]
-position = Vector2(-67, -18)
+position = Vector2(-0.26811594, -0.36585367)
 color = Color(1, 0.64705884, 1, 1)
-polygon = PackedVector2Array(-1, -1, 137, -1, 135, 38, -1, 38)
+polygon = PackedVector2Array(-0.73188406, -0.63414633, 114.26811, -0.63414633, 114.26811, 17.365854, 114.26811, 27.365854, 99.668976, 27.365854, 68.62952, 27.365854, -0.73188406, 27.365854, -1, 19.793823)

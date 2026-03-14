@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://ixj2bllhp7t" path="res://scripts/main.gd" id="1_x26i3"]
 [ext_resource type="PackedScene" uid="uid://dpfa4erbdltn0" path="res://scenes/player.tscn" id="2_rfnaa"]
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
-[ext_resource type="PackedScene" uid="uid://bois2dx5b7vb4" path="res://scenes/brick.tscn" id="5_vdhx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
 size = Vector2(15, 513)
@@ -61,20 +60,6 @@ position = Vector2(325, 271)
 scale = Vector2(0.25, 0.25)
 
 [node name="bricks" type="Node2D" parent="." unique_id=393319109]
-
-[node name="brick" parent="bricks" unique_id=97388442 instance=ExtResource("5_vdhx6")]
-position = Vector2(324, 28)
-
-[node name="brick2" parent="bricks" unique_id=291946354 instance=ExtResource("5_vdhx6")]
-position = Vector2(417, 72)
-
-[node name="brick3" parent="bricks" unique_id=931468308 instance=ExtResource("5_vdhx6")]
-position = Vector2(222, 71)
-
-[node name="brick4" parent="bricks" unique_id=1630745735 instance=ExtResource("5_vdhx6")]
-position = Vector2(503, 28)
-
-[node name="brick5" parent="bricks" unique_id=1219388960 instance=ExtResource("5_vdhx6")]
-position = Vector2(135, 28)
+visibility_layer = 4
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
