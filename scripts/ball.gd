@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var launch_offset_y := 20.0
 
 var is_stuck := true
-var start_direction := Vector2(0.7, -1).normalized()
+var start_direction := Vector2(0.1, -1).normalized()
 
 @onready var player = get_node(player_path)
 @onready var player_root: Node2D = get_node(player_path)

@@ -4,22 +4,22 @@ extends Node2D
 @onready var player = $player
 @onready var deadzone = $deadzone
 @onready var bricks = $bricks
-
-## teste
-
 @export var rows: int = 5
 @export var columns: int = 5
-@export var spacing_x: float = 11
+@export var spacing_x: float = 9.0
 @export var spacing_y: float = 5.0
-@export var start_position: Vector2 = Vector2(10, 5)
+@export var start_position: Vector2 = Vector2(60, 20)
+
+@export var ball_path: NodePath =  NodePath("./ball")
+@onready var ball2 = get_node(ball_path)
+@onready var ball2_root: Node2D = get_node(ball_path)
+@onready var bola: Node2D = ball2_root.get_node("bola")
+
+var phase := 1
+var lives = 3
 
 var brick_scene = preload("res://scenes/brick.tscn")
-
 var brick = brick_scene.instantiate()
-
-# get the polygon size
-var polygon = brick.get_node("Polygon2D")
-var rect = Rect2()
 
 func generate_bricks():
 	
@@ -34,29 +34,24 @@ func generate_bricks():
 	for child in bricks.get_children():
 		child.queue_free()
 	
-	# get the polygon size
-	for p in polygon.polygon:
-		rect = rect.expand(p)
 
-	var size = rect.size
-	var brick_width = rect.size.x
-	var brick_height = rect.size.y
-	print(brick_width)
-	print(brick_height)
-	# end of getting polygon size
-	
 	for row in range(rows):
 		for col in range(columns):
+			
+			# get the polygon size
+			var sprite = brick.get_node("texture")
+			var size = sprite.texture.get_size()
+			
 			var brick = brick_scene.instantiate()
 			bricks.add_child(brick)
 
-			var x = start_position.x + col * (brick_width + spacing_x)
-			var y = start_position.y + row * (brick_height + spacing_y)
+			var x = start_position.x + col * (size.x + spacing_x)
+			var y = start_position.y + row * (size.y + spacing_y)
 
 			brick.position = Vector2(x, y)
 			
 			var color = brick_colors[row % brick_colors.size()]
-			brick.get_node("Polygon2D").modulate = color
+			brick.get_node("texture").modulate = color
 
 func _ready():
 	
@@ -81,11 +76,15 @@ func spawn_brick(pos):
 func _on_deadzone_body_entered(body):
 	print(body)
 	print(body.get_script())	
-	if body.name == "ball":
+	if body.name == "bola":
 		body.call_deferred("stick_to_player")
 		
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
 
 	if bricks.get_child_count() <= 1:
-		print("fase completa")
+		if phase < 3:
+			phase += 1
+			print("Starting phase: ", phase)
+			bola.stick_to_player()
+			generate_bricks()

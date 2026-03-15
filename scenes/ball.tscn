@@ -8,14 +8,14 @@ radius = 40.012497
 
 [node name="ball" type="Node2D" unique_id=307636038]
 
-[node name="ball" type="CharacterBody2D" parent="." unique_id=1449447735]
+[node name="bola" type="CharacterBody2D" parent="." unique_id=1449447735]
 collision_layer = 4
 collision_mask = 27
 script = ExtResource("1_cxlvu")
 
-[node name="texture" type="Sprite2D" parent="ball" unique_id=787724377]
+[node name="texture" type="Sprite2D" parent="bola" unique_id=787724377]
 texture = ExtResource("2_f7cbr")
 
-[node name="collider" type="CollisionShape2D" parent="ball" unique_id=258563379]
+[node name="collider" type="CollisionShape2D" parent="bola" unique_id=258563379]
 shape = SubResource("CircleShape2D_4dx81")
 debug_color = Color(0.731553, 0.4654619, 0.23190391, 0.41960785)

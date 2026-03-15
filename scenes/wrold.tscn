@@ -13,8 +13,14 @@ size = Vector2(677, 13)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
+rows = null
+columns = null
+spacing_x = null
+spacing_y = null
+start_position = null
+ball_path = null
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=930485654]
+[node name="background" type="Sprite2D" parent="." unique_id=930485654]
 position = Vector2(328.99994, 251.99998)
 scale = Vector2(1.05, 1.05)
 texture = ExtResource("1_w04al")
