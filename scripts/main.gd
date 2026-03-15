@@ -15,12 +15,17 @@ extends Node2D
 @onready var ball2_root: Node2D = get_node(ball_path)
 @onready var bola: Node2D = ball2_root.get_node("bola")
 
+@onready var lives_label = $hud/LivesLabel
+
 var ball_speed : float
 var phase := 1
 var lives = 3
 
 var brick_scene = preload("res://scenes/brick.tscn")
 var brick = brick_scene.instantiate()
+
+func update_lives_ui():
+	lives_label.text = "LIVES: %d" % lives
 
 func generate_bricks():
 	
@@ -64,7 +69,8 @@ func _ready():
 	for brick in bricks.get_children():
 		brick.destroyed.connect(_on_brick_destroyed)
 	
-	ball_speed = bola.start_speed		
+	ball_speed = bola.start_speed
+	update_lives_ui()
 
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
@@ -84,6 +90,7 @@ func check_lives():
 func _on_deadzone_body_entered(body):
 	if body.name == "bola":
 		lives -= 1
+		update_lives_ui()
 		check_lives()
 		body.stick_to_player(ball_speed)
 

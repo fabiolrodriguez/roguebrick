@@ -64,4 +64,11 @@ visibility_layer = 4
 
 [node name="hud" type="CanvasLayer" parent="." unique_id=1191050989]
 
+[node name="LivesLabel" type="Label" parent="hud" unique_id=2000131278]
+offset_left = 553.0
+offset_top = 10.0
+offset_right = 612.0
+offset_bottom = 33.0
+text = "LIVES: 3"
+
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
