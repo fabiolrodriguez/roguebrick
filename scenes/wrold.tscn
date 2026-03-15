@@ -13,12 +13,6 @@ size = Vector2(677, 13)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
-rows = null
-columns = null
-spacing_x = null
-spacing_y = null
-start_position = null
-ball_path = null
 
 [node name="background" type="Sprite2D" parent="." unique_id=930485654]
 position = Vector2(328.99994, 251.99998)
@@ -67,5 +61,7 @@ scale = Vector2(0.25, 0.25)
 
 [node name="bricks" type="Node2D" parent="." unique_id=393319109]
 visibility_layer = 4
+
+[node name="hud" type="CanvasLayer" parent="." unique_id=1191050989]
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]

@@ -15,6 +15,7 @@ extends Node2D
 @onready var ball2_root: Node2D = get_node(ball_path)
 @onready var bola: Node2D = ball2_root.get_node("bola")
 
+var ball_speed : float
 var phase := 1
 var lives = 3
 
@@ -27,13 +28,14 @@ func generate_bricks():
 		Color.FIREBRICK,
 		Color.TOMATO,
 		Color.SANDY_BROWN,
-		Color.DARK_OLIVE_GREEN,
+		Color.AQUAMARINE,
 		Color.DODGER_BLUE
 	]
 	
 	for child in bricks.get_children():
 		child.queue_free()
 	
+	print("gerando bricks para fase:", phase)
 
 	for row in range(rows):
 		for col in range(columns):
@@ -52,6 +54,7 @@ func generate_bricks():
 			
 			var color = brick_colors[row % brick_colors.size()]
 			brick.get_node("texture").modulate = color
+			brick.destroyed.connect(check_bricks)
 
 func _ready():
 	
@@ -60,31 +63,41 @@ func _ready():
 	# connect brick to send the get the destroyed signal
 	for brick in bricks.get_children():
 		brick.destroyed.connect(_on_brick_destroyed)
+	
+	ball_speed = bola.start_speed		
 
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
 	
-func spawn_brick(pos):
+#func spawn_brick(pos):
+#
+	#var brick = brick_scene.instantiate()
+	#$bricks_container.add_child(brick)
+	#brick.position = pos
+	#brick.destroyed.connect(check_bricks)
 
-	var brick = brick_scene.instantiate()
-	$bricks_container.add_child(brick)
-
-	brick.position = pos
-
-	brick.destroyed.connect(check_bricks)
+func check_lives():
+	if lives <= 0:
+		print("GAME OVER")
+		get_tree().paused = true
 
 func _on_deadzone_body_entered(body):
-	print(body)
-	print(body.get_script())	
 	if body.name == "bola":
-		body.call_deferred("stick_to_player")
-		
+		lives -= 1
+		check_lives()
+		body.stick_to_player(ball_speed)
+
+func start_phase(phase):
+	phase = phase
+	ball_speed += 20
+	print("Starting phase: ", phase)
+	bola.stick_to_player(ball_speed)
+	generate_bricks()
+
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
 
 	if bricks.get_child_count() <= 1:
-		if phase < 3:
+		if phase <= 4:
 			phase += 1
-			print("Starting phase: ", phase)
-			bola.stick_to_player()
-			generate_bricks()
+			start_phase(phase)
