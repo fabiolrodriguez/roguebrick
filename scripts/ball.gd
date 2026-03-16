@@ -11,6 +11,7 @@ var start_direction := Vector2(0.1, -1).normalized()
 @onready var player = get_node(player_path)
 @onready var player_root: Node2D = get_node(player_path)
 @onready var paddle: Node2D = player_root.get_node("paddle")
+@onready var hit_sound = $"../../hit"
 
 func _ready():
 	stick_to_player(speed)
@@ -28,7 +29,10 @@ func _physics_process(delta):
 
 	if collision:
 		var collider = collision.get_collider()
-
+		
+		if collider.name == "paddle":
+			hit_sound.play()
+		
 		if collider.has_method("hit"):
 			collider.hit()
 			speed += 5
@@ -39,7 +43,7 @@ func launch():
 	velocity = start_direction * speed
 	launched.emit()
 
-func stick_to_player(speed):
+func stick_to_player(speed: float):
 	is_stuck = true
 	speed = speed
 	velocity = Vector2.ZERO

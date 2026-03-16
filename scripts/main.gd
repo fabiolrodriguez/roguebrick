@@ -19,6 +19,9 @@ extends Node2D
 @onready var dead_menu = $dead
 @onready var win_menu = $win
 
+## SFX
+@onready var bg_music = $bg
+
 var brick_hits := 1
 var spawn_chance := 1.0
 
@@ -59,13 +62,13 @@ func update_level_ui():
 
 func generate_bricks():
 	
-	var brick_colors = [
-		Color.FIREBRICK,
-		Color.TOMATO,
-		Color.SANDY_BROWN,
-		Color.AQUAMARINE,
-		Color.DODGER_BLUE
-	]
+	#var brick_colors = [
+		#Color.FIREBRICK,
+		#Color.TOMATO,
+		#Color.SANDY_BROWN,
+		#Color.AQUAMARINE,
+		#Color.DODGER_BLUE
+	#]
 	
 	for child in bricks.get_children():
 		child.queue_free()
@@ -88,8 +91,6 @@ func generate_bricks():
 
 			brick.position = Vector2(x, y)
 			
-			var color = brick_colors[row % brick_colors.size()]
-			brick.get_node("texture").modulate = color
 			brick.set_hits(brick_hits)
 			brick.destroyed.connect(check_bricks)
 
@@ -112,6 +113,7 @@ func _ready():
 	update_lives_ui()
 	update_level_ui()
 	bola.launched.connect(_on_ball_launched)
+	bg_music.play()
 
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
@@ -134,7 +136,7 @@ func _on_deadzone_body_entered(body):
 		lives -= 1
 		update_lives_ui()
 		check_lives()
-		body.stick_to_player(ball_speed)
+		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
 
 func start_phase(phase):
@@ -143,7 +145,7 @@ func start_phase(phase):
 	brick_hits += 1
 	spawn_chance -= 0.1
 	print("Starting phase: ", phase)
-	bola.stick_to_player(ball_speed)
+	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
 
@@ -154,7 +156,6 @@ func check_bricks():
 		phase += 1
 		check_win()
 		start_phase(phase)
-
 
 func _on_restart_pressed() -> void:
 	get_tree().paused = false

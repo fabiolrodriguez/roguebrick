@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://ixj2bllhp7t" path="res://scripts/main.gd" id="1_x26i3"]
 [ext_resource type="PackedScene" uid="uid://dpfa4erbdltn0" path="res://scenes/player.tscn" id="2_rfnaa"]
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
+[ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
+[ext_resource type="AudioStream" uid="uid://dx53kn51q1kvf" path="res://assets/background.mp3" id="6_xbkoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
 size = Vector2(15, 513)
@@ -142,6 +144,13 @@ offset_right = 376.0
 offset_bottom = 233.0
 text = "YOU WIN!!!"
 label_settings = SubResource("LabelSettings_x26i3")
+
+[node name="hit" type="AudioStreamPlayer" parent="." unique_id=418023205]
+stream = ExtResource("5_vdhx6")
+volume_db = -7.0
+
+[node name="bg" type="AudioStreamPlayer" parent="." unique_id=2105022792]
+stream = ExtResource("6_xbkoq")
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
 [connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
