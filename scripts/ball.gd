@@ -37,6 +37,7 @@ func _physics_process(delta):
 func launch():
 	is_stuck = false
 	velocity = start_direction * speed
+	launched.emit()
 
 func stick_to_player(speed):
 	is_stuck = true
@@ -44,3 +45,7 @@ func stick_to_player(speed):
 	velocity = Vector2.ZERO
 	global_position.x = paddle.global_position.x
 	global_position.y = paddle.global_position.y - launch_offset_y
+	
+signal launched
+
+	

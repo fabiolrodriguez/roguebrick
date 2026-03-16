@@ -11,6 +11,9 @@ size = Vector2(15, 513)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfnaa"]
 size = Vector2(677, 13)
 
+[sub_resource type="LabelSettings" id="LabelSettings_vdhx6"]
+font_size = 22
+
 [sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
 font_size = 23
 font_color = Color(0.7294118, 0.74509805, 0, 1)
@@ -81,6 +84,14 @@ offset_top = 8.0
 offset_right = 91.0
 offset_bottom = 31.0
 text = "LEVEL: 1"
+
+[node name="TimerLabel" type="Label" parent="hud" unique_id=1363404169]
+offset_left = 294.0
+offset_top = 5.0
+offset_right = 350.0
+offset_bottom = 36.0
+text = "00:00"
+label_settings = SubResource("LabelSettings_vdhx6")
 
 [node name="dead" type="CanvasLayer" parent="." unique_id=2122854333]
 process_mode = 2

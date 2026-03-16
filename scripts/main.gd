@@ -19,6 +19,9 @@ extends Node2D
 @onready var dead_menu = $dead
 @onready var win_menu = $win
 
+var brick_hits := 1
+var spawn_chance := 1.0
+
 var ball_speed : float
 var phase = 1
 var lives = 3
@@ -26,7 +29,24 @@ var lives = 3
 var brick_scene = preload("res://scenes/brick.tscn")
 var brick = brick_scene.instantiate()
 
+## Timer
+var elapsed_time := 0.0
+var timer_running := false
+var timer_started_once := false
 
+@onready var timer_label = $hud/TimerLabel
+
+func update_timer_ui():
+	var total_seconds = int(elapsed_time)
+	var minutes = total_seconds / 60
+	var seconds = total_seconds % 60
+
+	timer_label.text = "%02d:%02d" % [minutes, seconds]
+
+func _process(delta):
+	if timer_running:
+		elapsed_time += delta
+		update_timer_ui()
 
 func update_lives_ui():
 	lives_label.text = "LIVES: %d" % lives
@@ -54,8 +74,9 @@ func generate_bricks():
 
 	for row in range(rows):
 		for col in range(columns):
+			if randf() > spawn_chance:
+				continue
 			
-			# get the polygon size
 			var sprite = brick.get_node("texture")
 			var size = sprite.texture.get_size()
 			
@@ -69,7 +90,13 @@ func generate_bricks():
 			
 			var color = brick_colors[row % brick_colors.size()]
 			brick.get_node("texture").modulate = color
+			brick.set_hits(brick_hits)
 			brick.destroyed.connect(check_bricks)
+
+func _on_ball_launched():
+	timer_running = true
+	if not timer_started_once:
+		timer_started_once = true
 
 func _ready():
 	
@@ -84,6 +111,7 @@ func _ready():
 	ball_speed = bola.start_speed
 	update_lives_ui()
 	update_level_ui()
+	bola.launched.connect(_on_ball_launched)
 
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
@@ -98,7 +126,8 @@ func check_win():
 	if phase > 4:
 		print("WINNER")
 		win_menu.visible = true
-		get_tree().paused = true		
+		get_tree().paused = true
+		timer_running = false	
 
 func _on_deadzone_body_entered(body):
 	if body.name == "bola":
@@ -106,10 +135,13 @@ func _on_deadzone_body_entered(body):
 		update_lives_ui()
 		check_lives()
 		body.stick_to_player(ball_speed)
+		timer_running = false
 
 func start_phase(phase):
 	phase = phase
 	ball_speed += 20
+	brick_hits += 1
+	spawn_chance -= 0.1
 	print("Starting phase: ", phase)
 	bola.stick_to_player(ball_speed)
 	generate_bricks()
