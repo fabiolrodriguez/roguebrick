@@ -9,23 +9,33 @@ extends Node2D
 @export var spacing_x: float = 9.0
 @export var spacing_y: float = 5.0
 @export var start_position: Vector2 = Vector2(60, 20)
-
 @export var ball_path: NodePath =  NodePath("./ball")
 @onready var ball2 = get_node(ball_path)
 @onready var ball2_root: Node2D = get_node(ball_path)
 @onready var bola: Node2D = ball2_root.get_node("bola")
 
 @onready var lives_label = $hud/LivesLabel
+@onready var level_label = $hud/Label
+@onready var dead_menu = $dead
+@onready var win_menu = $win
 
 var ball_speed : float
-var phase := 1
+var phase = 1
 var lives = 3
 
 var brick_scene = preload("res://scenes/brick.tscn")
 var brick = brick_scene.instantiate()
 
+
+
 func update_lives_ui():
 	lives_label.text = "LIVES: %d" % lives
+	
+func update_level_ui():
+	if phase > 4:
+		level_label.text = "WINNER"
+	else:
+		level_label.text = "LEVEL: %d" % phase	
 
 func generate_bricks():
 	
@@ -64,6 +74,8 @@ func generate_bricks():
 func _ready():
 	
 	randomize()
+	dead_menu.visible = false
+	win_menu.visible = false
 	generate_bricks()
 	# connect brick to send the get the destroyed signal
 	for brick in bricks.get_children():
@@ -71,21 +83,22 @@ func _ready():
 	
 	ball_speed = bola.start_speed
 	update_lives_ui()
+	update_level_ui()
 
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
 	
-#func spawn_brick(pos):
-#
-	#var brick = brick_scene.instantiate()
-	#$bricks_container.add_child(brick)
-	#brick.position = pos
-	#brick.destroyed.connect(check_bricks)
-
 func check_lives():
 	if lives <= 0:
 		print("GAME OVER")
+		dead_menu.visible = true
 		get_tree().paused = true
+		
+func check_win():
+	if phase > 4:
+		print("WINNER")
+		win_menu.visible = true
+		get_tree().paused = true		
 
 func _on_deadzone_body_entered(body):
 	if body.name == "bola":
@@ -100,11 +113,20 @@ func start_phase(phase):
 	print("Starting phase: ", phase)
 	bola.stick_to_player(ball_speed)
 	generate_bricks()
+	update_level_ui()
 
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
 
 	if bricks.get_child_count() <= 1:
-		if phase <= 4:
-			phase += 1
-			start_phase(phase)
+		phase += 1
+		check_win()
+		start_phase(phase)
+
+
+func _on_restart_pressed() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+	
+func _on_quit_pressed() -> void:
+	get_tree().quit()

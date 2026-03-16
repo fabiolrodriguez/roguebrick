@@ -11,6 +11,10 @@ size = Vector2(15, 513)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfnaa"]
 size = Vector2(677, 13)
 
+[sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
+font_size = 23
+font_color = Color(0.7294118, 0.74509805, 0, 1)
+
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
 
@@ -65,10 +69,71 @@ visibility_layer = 4
 [node name="hud" type="CanvasLayer" parent="." unique_id=1191050989]
 
 [node name="LivesLabel" type="Label" parent="hud" unique_id=2000131278]
-offset_left = 553.0
-offset_top = 10.0
-offset_right = 612.0
-offset_bottom = 33.0
+offset_left = 548.0
+offset_top = 8.0
+offset_right = 607.0
+offset_bottom = 31.0
 text = "LIVES: 3"
 
+[node name="Label" type="Label" parent="hud" unique_id=951694865]
+offset_left = 28.0
+offset_top = 8.0
+offset_right = 91.0
+offset_bottom = 31.0
+text = "LEVEL: 1"
+
+[node name="dead" type="CanvasLayer" parent="." unique_id=2122854333]
+process_mode = 2
+
+[node name="restart" type="Button" parent="dead" unique_id=873391574]
+offset_left = 186.0
+offset_top = 254.0
+offset_right = 261.0
+offset_bottom = 285.0
+text = "RESTART"
+
+[node name="quit" type="Button" parent="dead" unique_id=2067696824]
+offset_left = 385.0
+offset_top = 253.0
+offset_right = 460.0
+offset_bottom = 284.0
+text = "QUIT"
+
+[node name="title" type="Label" parent="dead" unique_id=1798592188]
+offset_left = 259.0
+offset_top = 201.0
+offset_right = 376.0
+offset_bottom = 233.0
+text = "YOU LOSE!"
+label_settings = SubResource("LabelSettings_x26i3")
+
+[node name="win" type="CanvasLayer" parent="." unique_id=350136966]
+process_mode = 2
+
+[node name="restart" type="Button" parent="win" unique_id=1638849918]
+offset_left = 186.0
+offset_top = 254.0
+offset_right = 261.0
+offset_bottom = 285.0
+text = "RESTART"
+
+[node name="quit" type="Button" parent="win" unique_id=388769189]
+offset_left = 385.0
+offset_top = 253.0
+offset_right = 460.0
+offset_bottom = 284.0
+text = "QUIT"
+
+[node name="title" type="Label" parent="win" unique_id=1137587799]
+offset_left = 259.0
+offset_top = 201.0
+offset_right = 376.0
+offset_bottom = 233.0
+text = "YOU WIN!!!"
+label_settings = SubResource("LabelSettings_x26i3")
+
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
+[connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
