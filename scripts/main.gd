@@ -45,9 +45,9 @@ var timer_started_once := false
 
 ## Player upgrades
 @onready var upgrade_menu = $UpgradePanel
-@onready var option1_button = $UpgradePanel/option1
-@onready var option2_button = $UpgradePanel/option2
-@onready var option3_button = $UpgradePanel/option3
+@onready var option1_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1
+@onready var option2_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2
+@onready var option3_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3
 var available_upgrades = [
 	"bigger_paddle",
 	"faster_ball",
@@ -59,6 +59,12 @@ var current_upgrade_choices: Array = []
 func show_upgrade_panel():
 	get_tree().paused = true
 	upgrade_menu.visible = true
+	#upgrade_menu.modulate.a = 0.0
+	upgrade_menu.scale = Vector2(0.95, 0.95)
+	
+	var tween = create_tween()
+	tween.tween_property(upgrade_menu, "modulate:a", 1.0, 0.15)
+	tween.parallel().tween_property(upgrade_menu, "scale", Vector2.ONE, 0.15)
 
 	current_upgrade_choices = available_upgrades.duplicate()
 	current_upgrade_choices.shuffle()
@@ -184,7 +190,7 @@ func _ready():
 	update_level_ui()
 	bola.launched.connect(_on_ball_launched)
 	bg_music.play()
-
+	
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
 	

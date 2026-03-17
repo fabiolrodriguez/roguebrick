@@ -49,7 +49,7 @@ collision_layer = 2
 collision_mask = 12
 
 [node name="left_collider" type="CollisionShape2D" parent="left_wall" unique_id=2056553325]
-position = Vector2(-6.5, 246.5)
+position = Vector2(-9.5, 246.5)
 shape = SubResource("RectangleShape2D_w04al")
 
 [node name="right_wall" type="StaticBody2D" parent="." unique_id=275910563]
@@ -57,7 +57,7 @@ collision_layer = 2
 collision_mask = 12
 
 [node name="right_collider" type="CollisionShape2D" parent="right_wall" unique_id=113880498]
-position = Vector2(652.5, 246.5)
+position = Vector2(655.5, 246.5)
 shape = SubResource("RectangleShape2D_w04al")
 
 [node name="top_wall" type="StaticBody2D" parent="." unique_id=2063075969]
@@ -173,33 +173,52 @@ stream = ExtResource("6_xbkoq")
 [node name="UpgradePanel" type="CanvasLayer" parent="." unique_id=781428590]
 process_mode = 2
 
-[node name="title" type="Label" parent="UpgradePanel" unique_id=1454007029]
-offset_left = 166.0
-offset_top = 191.0
-offset_right = 490.0
-offset_bottom = 214.0
+[node name="ColorRect" type="ColorRect" parent="UpgradePanel" unique_id=97594926]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 32.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.53333336)
+
+[node name="PanelContainer" type="PanelContainer" parent="UpgradePanel" unique_id=157630245]
+offset_left = 162.0
+offset_top = 119.0
+offset_right = 506.0
+offset_bottom = 361.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UpgradePanel/PanelContainer" unique_id=1539027918]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer" unique_id=1584447258]
+layout_mode = 2
+
+[node name="title" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1454007029]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 text = "CHOSE YOUR UPGRADE"
 label_settings = SubResource("LabelSettings_7vf5t")
 
-[node name="option1" type="Button" parent="UpgradePanel" unique_id=368883374]
-offset_left = 170.0
-offset_top = 243.0
-offset_right = 241.0
-offset_bottom = 274.0
+[node name="HBoxContainer" type="HBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1922784506]
+layout_mode = 2
+
+[node name="option1" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=368883374]
+custom_minimum_size = Vector2(110, 200)
+layout_mode = 2
 text = "BIGGER!"
 
-[node name="option2" type="Button" parent="UpgradePanel" unique_id=68201774]
-offset_left = 292.0
-offset_top = 245.0
-offset_right = 345.0
-offset_bottom = 276.0
+[node name="option2" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=68201774]
+custom_minimum_size = Vector2(110, 200)
+layout_mode = 2
 text = "+1 UP"
 
-[node name="option3" type="Button" parent="UpgradePanel" unique_id=1541959008]
-offset_left = 414.0
-offset_top = 246.0
-offset_right = 491.0
-offset_bottom = 277.0
+[node name="option3" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1541959008]
+custom_minimum_size = Vector2(110, 200)
+layout_mode = 2
 text = "SLOWER!"
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
@@ -207,6 +226,6 @@ text = "SLOWER!"
 [connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="UpgradePanel/option1" to="." method="_on_option_1_pressed"]
-[connection signal="pressed" from="UpgradePanel/option2" to="." method="_on_option_2_pressed"]
-[connection signal="pressed" from="UpgradePanel/option3" to="." method="_on_option_3_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_2_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_3_pressed"]
