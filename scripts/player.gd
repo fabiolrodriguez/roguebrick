@@ -2,6 +2,12 @@ extends CharacterBody2D
 
 @export var speed = 400
 
+func apply_size_multiplier(multiplier: float):
+	$texture.scale.x *= multiplier
+
+	var rect_shape = $collider.shape as RectangleShape2D
+	rect_shape.size.x *= multiplier
+
 func _physics_process(delta):
 
 	var direction = 0

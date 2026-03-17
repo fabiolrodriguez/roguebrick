@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dpfa4erbdltn0" path="res://scenes/player.tscn" id="2_rfnaa"]
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
 [ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
+[ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="5_w7a3i"]
 [ext_resource type="AudioStream" uid="uid://dx53kn51q1kvf" path="res://assets/background.mp3" id="6_xbkoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
@@ -13,12 +14,27 @@ size = Vector2(15, 513)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfnaa"]
 size = Vector2(677, 13)
 
+[sub_resource type="LabelSettings" id="LabelSettings_f3pje"]
+font = ExtResource("5_w7a3i")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_n654h"]
+font = ExtResource("5_w7a3i")
+font_size = 14
+
 [sub_resource type="LabelSettings" id="LabelSettings_vdhx6"]
+font = ExtResource("5_w7a3i")
 font_size = 22
 
 [sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
+font = ExtResource("5_w7a3i")
 font_size = 23
 font_color = Color(0.7294118, 0.74509805, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vf5t"]
+font = ExtResource("5_w7a3i")
+font_size = 18
+font_color = Color(1, 1, 0.3372549, 1)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
@@ -74,24 +90,26 @@ visibility_layer = 4
 [node name="hud" type="CanvasLayer" parent="." unique_id=1191050989]
 
 [node name="LivesLabel" type="Label" parent="hud" unique_id=2000131278]
-offset_left = 548.0
-offset_top = 8.0
-offset_right = 607.0
-offset_bottom = 31.0
+offset_left = 519.0
+offset_top = 14.0
+offset_right = 647.0
+offset_bottom = 37.0
 text = "LIVES: 3"
+label_settings = SubResource("LabelSettings_f3pje")
 
 [node name="Label" type="Label" parent="hud" unique_id=951694865]
-offset_left = 28.0
-offset_top = 8.0
-offset_right = 91.0
-offset_bottom = 31.0
+offset_left = 4.0
+offset_top = 13.0
+offset_right = 132.0
+offset_bottom = 36.0
 text = "LEVEL: 1"
+label_settings = SubResource("LabelSettings_n654h")
 
 [node name="TimerLabel" type="Label" parent="hud" unique_id=1363404169]
-offset_left = 294.0
-offset_top = 5.0
-offset_right = 350.0
-offset_bottom = 36.0
+offset_left = 263.0
+offset_top = 10.0
+offset_right = 373.0
+offset_bottom = 41.0
 text = "00:00"
 label_settings = SubResource("LabelSettings_vdhx6")
 
@@ -113,9 +131,9 @@ offset_bottom = 284.0
 text = "QUIT"
 
 [node name="title" type="Label" parent="dead" unique_id=1798592188]
-offset_left = 259.0
+offset_left = 223.0
 offset_top = 201.0
-offset_right = 376.0
+offset_right = 430.0
 offset_bottom = 233.0
 text = "YOU LOSE!"
 label_settings = SubResource("LabelSettings_x26i3")
@@ -138,9 +156,9 @@ offset_bottom = 284.0
 text = "QUIT"
 
 [node name="title" type="Label" parent="win" unique_id=1137587799]
-offset_left = 259.0
+offset_left = 211.0
 offset_top = 201.0
-offset_right = 376.0
+offset_right = 441.0
 offset_bottom = 233.0
 text = "YOU WIN!!!"
 label_settings = SubResource("LabelSettings_x26i3")
@@ -152,8 +170,43 @@ volume_db = -7.0
 [node name="bg" type="AudioStreamPlayer" parent="." unique_id=2105022792]
 stream = ExtResource("6_xbkoq")
 
+[node name="UpgradePanel" type="CanvasLayer" parent="." unique_id=781428590]
+process_mode = 2
+
+[node name="title" type="Label" parent="UpgradePanel" unique_id=1454007029]
+offset_left = 166.0
+offset_top = 191.0
+offset_right = 490.0
+offset_bottom = 214.0
+text = "CHOSE YOUR UPGRADE"
+label_settings = SubResource("LabelSettings_7vf5t")
+
+[node name="option1" type="Button" parent="UpgradePanel" unique_id=368883374]
+offset_left = 170.0
+offset_top = 243.0
+offset_right = 241.0
+offset_bottom = 274.0
+text = "BIGGER!"
+
+[node name="option2" type="Button" parent="UpgradePanel" unique_id=68201774]
+offset_left = 292.0
+offset_top = 245.0
+offset_right = 345.0
+offset_bottom = 276.0
+text = "+1 UP"
+
+[node name="option3" type="Button" parent="UpgradePanel" unique_id=1541959008]
+offset_left = 414.0
+offset_top = 246.0
+offset_right = 491.0
+offset_bottom = 277.0
+text = "SLOWER!"
+
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
 [connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="UpgradePanel/option1" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="UpgradePanel/option2" to="." method="_on_option_2_pressed"]
+[connection signal="pressed" from="UpgradePanel/option3" to="." method="_on_option_3_pressed"]

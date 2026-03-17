@@ -14,11 +14,15 @@ extends Node2D
 @onready var ball2_root: Node2D = get_node(ball_path)
 @onready var bola: Node2D = ball2_root.get_node("bola")
 
+@export var player_path: NodePath =  NodePath("./player")
+@onready var player2 = get_node(player_path)
+@onready var player_root: Node2D = get_node(player_path)
+@onready var paddle: Node2D = player_root.get_node("paddle")
+
 @onready var lives_label = $hud/LivesLabel
 @onready var level_label = $hud/Label
 @onready var dead_menu = $dead
 @onready var win_menu = $win
-
 ## SFX
 @onready var bg_music = $bg
 
@@ -38,6 +42,78 @@ var timer_running := false
 var timer_started_once := false
 
 @onready var timer_label = $hud/TimerLabel
+
+## Player upgrades
+@onready var upgrade_menu = $UpgradePanel
+@onready var option1_button = $UpgradePanel/option1
+@onready var option2_button = $UpgradePanel/option2
+@onready var option3_button = $UpgradePanel/option3
+var available_upgrades = [
+	"bigger_paddle",
+	"faster_ball",
+	"extra_life"
+]
+
+var current_upgrade_choices: Array = []
+
+func show_upgrade_panel():
+	get_tree().paused = true
+	upgrade_menu.visible = true
+
+	current_upgrade_choices = available_upgrades.duplicate()
+	current_upgrade_choices.shuffle()
+	current_upgrade_choices = current_upgrade_choices.slice(0, 3)
+
+	option1_button.text = upgrade_to_text(current_upgrade_choices[0])
+	option2_button.text = upgrade_to_text(current_upgrade_choices[1])
+	option3_button.text = upgrade_to_text(current_upgrade_choices[2])
+
+
+func upgrade_to_text(upgrade_id: String) -> String:
+	match upgrade_id:
+		"bigger_paddle":
+			return "BIGGER"
+		"faster_ball":
+			return "SPEED"
+		"extra_life":
+			return "+1UP"
+		_:
+			return upgrade_id
+
+
+func choose_upgrade(index: int):
+	var chosen_upgrade = current_upgrade_choices[index]
+	apply_upgrade(chosen_upgrade)
+
+	upgrade_menu.visible = false
+	get_tree().paused = false
+
+	call_deferred("start_next_phase")
+
+
+func apply_upgrade(upgrade_id: String):
+	match upgrade_id:
+		"bigger_paddle":
+			if paddle.has_method("apply_size_multiplier"):
+				paddle.apply_size_multiplier(1.2)
+
+		"faster_ball":
+			ball_speed += 20.0
+
+		"extra_life":
+			lives += 1
+			update_lives_ui()
+			
+func _on_option_1_button_pressed():
+	choose_upgrade(0)
+
+func _on_option_2_button_pressed():
+	choose_upgrade(1)
+	
+func _on_option_3_button_pressed():
+	choose_upgrade(2)			
+			
+## End of upgrades			
 
 func update_timer_ui():
 	var total_seconds = int(elapsed_time)
@@ -61,14 +137,6 @@ func update_level_ui():
 		level_label.text = "LEVEL: %d" % phase	
 
 func generate_bricks():
-	
-	#var brick_colors = [
-		#Color.FIREBRICK,
-		#Color.TOMATO,
-		#Color.SANDY_BROWN,
-		#Color.AQUAMARINE,
-		#Color.DODGER_BLUE
-	#]
 	
 	for child in bricks.get_children():
 		child.queue_free()
@@ -104,6 +172,8 @@ func _ready():
 	randomize()
 	dead_menu.visible = false
 	win_menu.visible = false
+	upgrade_menu.visible = false
+	
 	generate_bricks()
 	# connect brick to send the get the destroyed signal
 	for brick in bricks.get_children():
@@ -148,6 +218,9 @@ func start_phase(phase):
 	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
+	if phase > 1:
+		show_upgrade_panel()
+		#upgrade_menu.visible = true
 
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
@@ -163,3 +236,12 @@ func _on_restart_pressed() -> void:
 	
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+func _on_option_1_pressed() -> void:
+	choose_upgrade(0)
+
+func _on_option_2_pressed() -> void:
+	choose_upgrade(1)
+
+func _on_option_3_pressed() -> void:
+	choose_upgrade(2)
