@@ -104,7 +104,7 @@ func apply_upgrade(upgrade_id: String):
 				paddle.apply_size_multiplier(1.2)
 
 		"faster_ball":
-			ball_speed += 20.0
+			ball_speed -= 20.0
 
 		"extra_life":
 			lives += 1
@@ -189,6 +189,7 @@ func _ready():
 	update_lives_ui()
 	update_level_ui()
 	bola.launched.connect(_on_ball_launched)
+	bg_music.stream.loop = true
 	bg_music.play()
 	
 func _on_brick_destroyed():
@@ -217,7 +218,7 @@ func _on_deadzone_body_entered(body):
 
 func start_phase(phase):
 	phase = phase
-	ball_speed += 20
+	ball_speed = bola.start_speed + 20
 	brick_hits += 1
 	spawn_chance -= 0.1
 	print("Starting phase: ", phase)

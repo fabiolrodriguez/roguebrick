@@ -5,6 +5,8 @@ signal destroyed
 var hits := 1
 
 @onready var sprite = $texture
+@onready var hit_brick = $"../../hit_brick"
+@onready var destroy_brick = $"../../destroy_brick"
 
 func set_hits(value: int):
 	hits = value
@@ -13,10 +15,13 @@ func set_hits(value: int):
 func hit():
 	hits -= 1
 	if hits <= 0:
+		destroy_brick.play()
 		destroyed.emit()
 		queue_free()
 	else:
+		hit_brick.play()
 		update_visual()
+		
 
 func update_visual():
 	match hits:

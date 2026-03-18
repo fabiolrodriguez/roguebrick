@@ -45,7 +45,7 @@ func launch():
 
 func stick_to_player(speed: float):
 	is_stuck = true
-	speed = speed
+	speed = start_speed
 	velocity = Vector2.ZERO
 	global_position.x = paddle.global_position.x
 	global_position.y = paddle.global_position.y - launch_offset_y

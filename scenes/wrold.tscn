@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
 [ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
 [ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="5_w7a3i"]
-[ext_resource type="AudioStream" uid="uid://dx53kn51q1kvf" path="res://assets/background.mp3" id="6_xbkoq"]
+[ext_resource type="AudioStream" uid="uid://db1xcb8jghd27" path="res://assets/hit_brick.mp3" id="7_f3pje"]
+[ext_resource type="AudioStream" uid="uid://ct8rk5fq67bbc" path="res://assets/bg2.mp3" id="7_w7a3i"]
+[ext_resource type="AudioStream" uid="uid://cvn3lm2ykrbp3" path="res://assets/destroy.mp3" id="9_n654h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
 size = Vector2(15, 513)
@@ -168,7 +170,8 @@ stream = ExtResource("5_vdhx6")
 volume_db = -7.0
 
 [node name="bg" type="AudioStreamPlayer" parent="." unique_id=2105022792]
-stream = ExtResource("6_xbkoq")
+stream = ExtResource("7_w7a3i")
+volume_db = -13.684
 
 [node name="UpgradePanel" type="CanvasLayer" parent="." unique_id=781428590]
 process_mode = 2
@@ -220,6 +223,14 @@ text = "+1 UP"
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
 text = "SLOWER!"
+
+[node name="hit_brick" type="AudioStreamPlayer" parent="." unique_id=826432983]
+stream = ExtResource("7_f3pje")
+volume_db = -6.0
+
+[node name="destroy_brick" type="AudioStreamPlayer" parent="." unique_id=1231877701]
+stream = ExtResource("9_n654h")
+volume_db = -6.0
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
 [connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
