@@ -25,6 +25,8 @@ extends Node2D
 @onready var win_menu = $win
 ## SFX
 @onready var bg_music = $bg
+@onready var button_hover = $button_hover
+@onready var button_click = $button_click
 
 var brick_hits := 1
 var spawn_chance := 1.0
@@ -192,6 +194,15 @@ func _ready():
 	bg_music.stream.loop = true
 	bg_music.play()
 	
+	option1_button.mouse_entered.connect(_on_button_hover.bind(option1_button))
+	option1_button.mouse_exited.connect(_on_button_exit.bind(option1_button))
+
+	option2_button.mouse_entered.connect(_on_button_hover.bind(option2_button))
+	option2_button.mouse_exited.connect(_on_button_exit.bind(option2_button))
+
+	option3_button.mouse_entered.connect(_on_button_hover.bind(option3_button))
+	option3_button.mouse_exited.connect(_on_button_exit.bind(option3_button))	
+	
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
 	
@@ -245,10 +256,28 @@ func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 func _on_option_1_pressed() -> void:
+	animate_press(option1_button)
+	button_click.play()
 	choose_upgrade(0)
 
 func _on_option_2_pressed() -> void:
+	animate_press(option2_button)
+	button_click.play()
 	choose_upgrade(1)
 
 func _on_option_3_pressed() -> void:
+	animate_press(option3_button)
+	button_click.play()
 	choose_upgrade(2)
+	
+func _on_button_hover(button):
+	button.modulate = Color(1.2, 1.2, 1.2)
+	button_hover.play()
+
+func _on_button_exit(button):
+	button.modulate = Color(1, 1, 1) # normal	
+	
+func animate_press(button):
+	var tween = create_tween()
+	tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.05)
+	tween.tween_property(button, "scale", Vector2(1, 1), 0.05)	

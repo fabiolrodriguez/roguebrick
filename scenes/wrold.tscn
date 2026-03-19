@@ -9,6 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://db1xcb8jghd27" path="res://assets/hit_brick.mp3" id="7_f3pje"]
 [ext_resource type="AudioStream" uid="uid://ct8rk5fq67bbc" path="res://assets/bg2.mp3" id="7_w7a3i"]
 [ext_resource type="AudioStream" uid="uid://cvn3lm2ykrbp3" path="res://assets/destroy.mp3" id="9_n654h"]
+[ext_resource type="AudioStream" uid="uid://c6f5i82w3u4kj" path="res://assets/shine.mp3" id="10_wsg7y"]
+[ext_resource type="AudioStream" uid="uid://c80k8g5gnphdu" path="res://assets/chosed.mp3" id="11_sehhi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w04al"]
 size = Vector2(15, 513)
@@ -37,6 +39,18 @@ font_color = Color(0.7294118, 0.74509805, 0, 1)
 font = ExtResource("5_w7a3i")
 font_size = 18
 font_color = Color(1, 1, 0.3372549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsg7y"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.9943107, 0.75044125, 0.2804364, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.5240455, 0.2958078, 0.16232753, 1)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
@@ -182,8 +196,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -11.0
 offset_top = -6.0
-offset_right = 32.0
-offset_bottom = 24.0
+offset_right = 35.0
+offset_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
@@ -212,6 +226,7 @@ layout_mode = 2
 [node name="option1" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=368883374]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
 text = "BIGGER!"
 
 [node name="option2" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=68201774]
@@ -230,6 +245,14 @@ volume_db = -6.0
 
 [node name="destroy_brick" type="AudioStreamPlayer" parent="." unique_id=1231877701]
 stream = ExtResource("9_n654h")
+volume_db = -6.0
+
+[node name="button_hover" type="AudioStreamPlayer" parent="." unique_id=1614729894]
+stream = ExtResource("10_wsg7y")
+volume_db = -6.0
+
+[node name="button_click" type="AudioStreamPlayer" parent="." unique_id=1885723601]
+stream = ExtResource("11_sehhi")
 volume_db = -6.0
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
