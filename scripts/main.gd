@@ -27,6 +27,8 @@ extends Node2D
 @onready var bg_music = $bg
 @onready var button_hover = $button_hover
 @onready var button_click = $button_click
+@onready var game_over = $game_over
+@onready var deadzone_sound = $deadzone_sound
 
 var brick_hits := 1
 var spawn_chance := 1.0
@@ -53,7 +55,10 @@ var timer_started_once := false
 var available_upgrades = [
 	"bigger_paddle",
 	"faster_ball",
-	"extra_life"
+	"extra_life",
+	"faster_player",
+	"magnet_ball"
+
 ]
 
 var current_upgrade_choices: Array = []
@@ -82,9 +87,13 @@ func upgrade_to_text(upgrade_id: String) -> String:
 		"bigger_paddle":
 			return "BIGGER"
 		"faster_ball":
-			return "SPEED"
+			return "BALL -SPEED"
 		"extra_life":
 			return "+1UP"
+		"faster_player":
+			return "PLAYER +SPEED"
+		"magnet_ball":
+			return "MAGNET BALL"
 		_:
 			return upgrade_id
 
@@ -104,13 +113,20 @@ func apply_upgrade(upgrade_id: String):
 		"bigger_paddle":
 			if paddle.has_method("apply_size_multiplier"):
 				paddle.apply_size_multiplier(1.2)
-
 		"faster_ball":
 			ball_speed -= 20.0
-
 		"extra_life":
 			lives += 1
 			update_lives_ui()
+		"faster_player":
+			if player.has_method("increase_speed"):
+				player.increase_speed(60.0)
+		"magnet_ball":
+			print("Entrou no case magnet_ball")
+			if bola.has_method("enable_magnet"):
+				bola.enable_magnet()
+			else:
+				print("metodo não encontrado")	
 			
 func _on_option_1_button_pressed():
 	choose_upgrade(0)
@@ -209,6 +225,8 @@ func _on_brick_destroyed():
 func check_lives():
 	if lives <= 0:
 		print("GAME OVER")
+		await get_tree().create_timer(1).timeout
+		game_over.play()
 		dead_menu.visible = true
 		get_tree().paused = true
 		
@@ -224,12 +242,16 @@ func _on_deadzone_body_entered(body):
 		lives -= 1
 		update_lives_ui()
 		check_lives()
+		ball_speed = bola.start_speed
+		if dead_menu.visible == false:
+			deadzone_sound.play()
+		await get_tree().create_timer(0.5).timeout
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
 
 func start_phase(phase):
 	phase = phase
-	ball_speed = bola.start_speed + 20
+	ball_speed = bola.start_speed + 18
 	brick_hits += 1
 	spawn_chance -= 0.1
 	print("Starting phase: ", phase)

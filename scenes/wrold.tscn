@@ -7,7 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
 [ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="5_w7a3i"]
 [ext_resource type="AudioStream" uid="uid://db1xcb8jghd27" path="res://assets/hit_brick.mp3" id="7_f3pje"]
+[ext_resource type="AudioStream" uid="uid://jryeatwr5egh" path="res://assets/game_over.mp3" id="7_sehhi"]
 [ext_resource type="AudioStream" uid="uid://ct8rk5fq67bbc" path="res://assets/bg2.mp3" id="7_w7a3i"]
+[ext_resource type="AudioStream" uid="uid://l7g4b6mv3xfm" path="res://assets/deadzone.mp3" id="8_ajrab"]
 [ext_resource type="AudioStream" uid="uid://cvn3lm2ykrbp3" path="res://assets/destroy.mp3" id="9_n654h"]
 [ext_resource type="AudioStream" uid="uid://c6f5i82w3u4kj" path="res://assets/shine.mp3" id="10_wsg7y"]
 [ext_resource type="AudioStream" uid="uid://c80k8g5gnphdu" path="res://assets/chosed.mp3" id="11_sehhi"]
@@ -51,6 +53,14 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color(0.5240455, 0.2958078, 0.16232753, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sehhi"]
+bg_color = Color(0.99607843, 0.7490196, 0.28235295, 1)
+border_width_left = 12
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 10
+border_color = Color(1.2401115, 1.1005601, 0.56786066, 0.7294118)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
@@ -183,9 +193,18 @@ label_settings = SubResource("LabelSettings_x26i3")
 stream = ExtResource("5_vdhx6")
 volume_db = -7.0
 
+[node name="game_over" type="AudioStreamPlayer" parent="." unique_id=278293023]
+stream = ExtResource("7_sehhi")
+volume_db = -7.0
+
+[node name="deadzone_sound" type="AudioStreamPlayer" parent="." unique_id=1638195976]
+process_mode = 2
+stream = ExtResource("8_ajrab")
+volume_db = -10.0
+
 [node name="bg" type="AudioStreamPlayer" parent="." unique_id=2105022792]
 stream = ExtResource("7_w7a3i")
-volume_db = -13.684
+volume_db = -20.0
 
 [node name="UpgradePanel" type="CanvasLayer" parent="." unique_id=781428590]
 process_mode = 2
@@ -227,17 +246,22 @@ layout_mode = 2
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
 text = "BIGGER!"
 
-[node name="option2" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=68201774]
+[node name="option2" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1443900978]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
-text = "+1 UP"
+theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
+text = "BIGGER!"
 
-[node name="option3" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1541959008]
+[node name="option3" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=658247876]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
-text = "SLOWER!"
+theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
+text = "BIGGER!"
 
 [node name="hit_brick" type="AudioStreamPlayer" parent="." unique_id=826432983]
 stream = ExtResource("7_f3pje")
@@ -261,5 +285,5 @@ volume_db = -6.0
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" to="." method="_on_option_1_pressed"]
-[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_2_pressed"]
-[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_3_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_1_pressed"]
