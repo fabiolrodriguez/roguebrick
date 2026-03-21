@@ -52,13 +52,14 @@ var timer_started_once := false
 @onready var option1_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1
 @onready var option2_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2
 @onready var option3_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3
+@export var ball_scene: PackedScene
 var available_upgrades = [
-	"bigger_paddle",
-	"faster_ball",
-	"extra_life",
+	#"bigger_paddle",
+	#"faster_ball",
+	#"extra_life",
 	"faster_player",
-	"magnet_ball"
-
+	"magnet_ball",
+	"multi_ball"
 ]
 
 var current_upgrade_choices: Array = []
@@ -94,16 +95,17 @@ func upgrade_to_text(upgrade_id: String) -> String:
 			return "PLAYER +SPEED"
 		"magnet_ball":
 			return "MAGNET BALL"
+		"multi_ball":
+			return "MULTI BALL"
 		_:
 			return upgrade_id
 
 
 func choose_upgrade(index: int):
 	var chosen_upgrade = current_upgrade_choices[index]
-	apply_upgrade(chosen_upgrade)
-
-	upgrade_menu.visible = false
 	get_tree().paused = false
+	apply_upgrade(chosen_upgrade)
+	upgrade_menu.visible = false
 
 	call_deferred("start_next_phase")
 
@@ -126,7 +128,10 @@ func apply_upgrade(upgrade_id: String):
 			if bola.has_method("enable_magnet"):
 				bola.enable_magnet()
 			else:
-				print("metodo não encontrado")	
+				print("metodo não encontrado")
+		"multi_ball":
+			spawn_extra_ball()
+		
 			
 func _on_option_1_button_pressed():
 	choose_upgrade(0)
@@ -238,7 +243,9 @@ func check_win():
 		timer_running = false	
 
 func _on_deadzone_body_entered(body):
-	if body.name == "bola":
+	if body.is_in_group("ball"):
+		var balls = get_tree().get_nodes_in_group("ball")
+	#if body.name == "bola":
 		lives -= 1
 		update_lives_ui()
 		check_lives()
@@ -248,6 +255,9 @@ func _on_deadzone_body_entered(body):
 		await get_tree().create_timer(0.5).timeout
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
+		if balls.size() > 1:
+			body.queue_free()
+		call_deferred("check_remaining_balls")
 
 func start_phase(phase):
 	phase = phase
@@ -260,7 +270,6 @@ func start_phase(phase):
 	update_level_ui()
 	if phase > 1:
 		show_upgrade_panel()
-		#upgrade_menu.visible = true
 
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
@@ -302,4 +311,50 @@ func _on_button_exit(button):
 func animate_press(button):
 	var tween = create_tween()
 	tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.05)
-	tween.tween_property(button, "scale", Vector2(1, 1), 0.05)	
+	tween.tween_property(button, "scale", Vector2(1, 1), 0.05)
+	
+#func spawn_extra_ball():
+	#var new_ball = ball_scene.instantiate()
+	#add_child(new_ball)
+#
+	#new_ball.player = player
+	#new_ball.paddle = paddle
+	#new_ball.global_position = ball.global_position
+#
+	#new_ball.is_stuck = false
+	#new_ball.speed = ball_speed
+	#new_ball.velocity = Vector2(-0.6, -1).normalized() * ball_speed
+
+func spawn_extra_ball():
+	print("spawn_extra_ball chamada")
+	print("ball_scene:", ball_scene)
+
+	if ball_scene == null:
+		print("ERRO: ball_scene está null")
+		return
+
+	var new_ball = ball_scene.instantiate()
+	add_child(new_ball)
+
+	print("nova bola criada:", new_ball)
+
+	new_ball.global_position = paddle .global_position + Vector2(0, -30)
+	new_ball.player = player_path
+	new_ball.is_stuck = false
+	new_ball.speed = ball_speed
+	new_ball.velocity = Vector2(-0.6, -1).normalized() * ball_speed
+
+	print("nova bola posicionada em:", new_ball.global_position)
+	print("nova velocidade:", new_ball.velocity)
+	
+func check_remaining_balls():
+	var balls = get_tree().get_nodes_in_group("ball")
+
+	if balls.size() == 0:
+		lives -= 1
+		update_lives_ui()
+
+		if lives <= 0:
+			check_lives()
+		else:
+			bola.call_deferred("stick_to_player", ball_speed)

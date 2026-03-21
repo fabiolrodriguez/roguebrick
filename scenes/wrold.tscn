@@ -64,6 +64,7 @@ border_color = Color(1.2401115, 1.1005601, 0.56786066, 0.7294118)
 
 [node name="level" type="Node2D" unique_id=128924603]
 script = ExtResource("1_x26i3")
+ball_scene = ExtResource("3_ninex")
 
 [node name="background" type="Sprite2D" parent="." unique_id=930485654]
 position = Vector2(328.99994, 251.99998)

@@ -16,12 +16,19 @@ var magnet_enabled := false
 
 
 func _ready():
+	add_to_group("ball")
 	stick_to_player(speed)
 
 func _physics_process(delta):
 	if is_stuck:
-		global_position.x = paddle.global_position.x
-		global_position.y = paddle.global_position.y - launch_offset_y
+		if paddle != null:
+			global_position = Vector2(
+				paddle.global_position.x,
+				paddle.global_position.y - launch_offset_y - 2
+			)
+		#global_position.x = paddle.global_position.x
+		#global_position.y = paddle.global_position.y - launch_offset_y
+		
 
 		if Input.is_action_just_pressed("ui_accept"):
 			launch()
@@ -35,7 +42,9 @@ func _physics_process(delta):
 		if collider.name == "paddle":
 			if magnet_enabled:
 				stick_to_player(speed)
+				return
 			hit_sound.play()
+			
 		
 		if collider.has_method("hit"):
 			collider.hit()
@@ -52,8 +61,10 @@ func stick_to_player(speed: float):
 	is_stuck = true
 	speed = start_speed
 	velocity = Vector2.ZERO
-	#global_position.x = paddle.global_position.x
-	#global_position.y = paddle.global_position.y - launch_offset_y
+	
+	if paddle == null:
+		return
+	
 	global_position = Vector2(
 		paddle.global_position.x,
 		paddle.global_position.y - launch_offset_y
@@ -62,7 +73,7 @@ func stick_to_player(speed: float):
 func enable_magnet():
 	magnet_enabled = true
 	print("Magnet enabled")	
-	
+		
 signal launched
 
 	
