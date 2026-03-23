@@ -45,6 +45,8 @@ var elapsed_time := 0.0
 var timer_running := false
 var timer_started_once := false
 
+var has_multiball_upgrade := false
+
 @onready var timer_label = $hud/TimerLabel
 
 ## Player upgrades
@@ -107,12 +109,12 @@ func choose_upgrade(index: int):
 	apply_upgrade(chosen_upgrade)
 	upgrade_menu.visible = false
 
-	call_deferred("start_next_phase")
+	call_deferred("start_new_phase", phase)
 
 
 func apply_upgrade(upgrade_id: String):
 	match upgrade_id:
-		"bigger_paddle":
+		"bigger_paddle": 
 			if paddle.has_method("apply_size_multiplier"):
 				paddle.apply_size_multiplier(1.2)
 		"faster_ball":
@@ -127,9 +129,9 @@ func apply_upgrade(upgrade_id: String):
 			print("Entrou no case magnet_ball")
 			if bola.has_method("enable_magnet"):
 				bola.enable_magnet()
-			else:
-				print("metodo não encontrado")
 		"multi_ball":
+			print("Entrou no case multi ball")
+			has_multiball_upgrade = true
 			spawn_extra_ball()
 		
 			
@@ -203,7 +205,7 @@ func _ready():
 	win_menu.visible = false
 	upgrade_menu.visible = false
 	
-	generate_bricks()
+	#generate_bricks()
 	# connect brick to send the get the destroyed signal
 	for brick in bricks.get_children():
 		brick.destroyed.connect(_on_brick_destroyed)
@@ -222,8 +224,9 @@ func _ready():
 	option2_button.mouse_exited.connect(_on_button_exit.bind(option2_button))
 
 	option3_button.mouse_entered.connect(_on_button_hover.bind(option3_button))
-	option3_button.mouse_exited.connect(_on_button_exit.bind(option3_button))	
-	
+	option3_button.mouse_exited.connect(_on_button_exit.bind(option3_button))
+	start_phase(phase)
+
 func _on_brick_destroyed():
 	call_deferred("check_bricks")
 	
@@ -255,20 +258,20 @@ func _on_deadzone_body_entered(body):
 		await get_tree().create_timer(0.5).timeout
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
-		if balls.size() > 1:
-			body.queue_free()
+		#if balls.size() > 1:
+			#body.queue_free()
 		call_deferred("check_remaining_balls")
 
 func start_phase(phase):
 	phase = phase
-	ball_speed = bola.start_speed + 18
-	brick_hits += 1
-	spawn_chance -= 0.1
 	print("Starting phase: ", phase)
 	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
-	if phase > 1:
+	if phase > 0:
+		ball_speed = bola.start_speed + 18
+		brick_hits += 1
+		spawn_chance -= 0.1		
 		show_upgrade_panel()
 
 func check_bricks():
@@ -335,17 +338,19 @@ func spawn_extra_ball():
 
 	var new_ball = ball_scene.instantiate()
 	add_child(new_ball)
+	
+	var ball_script = new_ball.get_node("bola")
 
 	print("nova bola criada:", new_ball)
-
-	new_ball.global_position = paddle .global_position + Vector2(0, -30)
-	new_ball.player = player_path
-	new_ball.is_stuck = false
-	new_ball.speed = ball_speed
-	new_ball.velocity = Vector2(-0.6, -1).normalized() * ball_speed
+	ball_script.scale = Vector2(0.27, 0.27)
+	ball_script.global_position = paddle.global_position + Vector2(20, -10)
+	ball_script.player = player
+	ball_script.is_stuck = false
+	ball_script.speed = ball_speed
+	ball_script.velocity = Vector2(-0.6, -1).normalized() * ball_speed
 
 	print("nova bola posicionada em:", new_ball.global_position)
-	print("nova velocidade:", new_ball.velocity)
+	print("nova velocidade:", ball_script.velocity)
 	
 func check_remaining_balls():
 	var balls = get_tree().get_nodes_in_group("ball")
