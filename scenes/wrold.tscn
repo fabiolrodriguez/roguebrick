@@ -286,5 +286,5 @@ volume_db = -6.0
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" to="." method="_on_option_1_pressed"]
-[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_1_pressed"]
-[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_2_pressed"]
+[connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_3_pressed"]

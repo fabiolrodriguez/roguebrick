@@ -47,6 +47,8 @@ var timer_started_once := false
 
 var has_multiball_upgrade := false
 
+var winner := false
+
 @onready var timer_label = $hud/TimerLabel
 
 ## Player upgrades
@@ -56,12 +58,13 @@ var has_multiball_upgrade := false
 @onready var option3_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3
 @export var ball_scene: PackedScene
 var available_upgrades = [
-	#"bigger_paddle",
-	#"faster_ball",
-	#"extra_life",
+	"bigger_paddle",
+	"faster_ball",
+	"extra_life",
 	"faster_player",
 	"magnet_ball",
-	"multi_ball"
+	"multi_ball",
+	"piercing_ball",
 ]
 
 var current_upgrade_choices: Array = []
@@ -99,6 +102,8 @@ func upgrade_to_text(upgrade_id: String) -> String:
 			return "MAGNET BALL"
 		"multi_ball":
 			return "MULTI BALL"
+		"piercing_ball":
+			return "PIERCING BALL"			
 		_:
 			return upgrade_id
 
@@ -133,6 +138,9 @@ func apply_upgrade(upgrade_id: String):
 			print("Entrou no case multi ball")
 			has_multiball_upgrade = true
 			spawn_extra_ball()
+		"piercing_ball":
+			if bola.has_method("enable_piercing"):
+				bola.enable_piercing()
 		
 			
 func _on_option_1_button_pressed():
@@ -240,6 +248,7 @@ func check_lives():
 		
 func check_win():
 	if phase > 4:
+		winner = true
 		print("WINNER")
 		win_menu.visible = true
 		get_tree().paused = true
@@ -247,8 +256,9 @@ func check_win():
 
 func _on_deadzone_body_entered(body):
 	if body.is_in_group("ball"):
-		var balls = get_tree().get_nodes_in_group("ball")
-	#if body.name == "bola":
+		if body.is_extra_ball:
+			body.queue_free()
+			return
 		lives -= 1
 		update_lives_ui()
 		check_lives()
@@ -258,8 +268,6 @@ func _on_deadzone_body_entered(body):
 		await get_tree().create_timer(0.5).timeout
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
-		#if balls.size() > 1:
-			#body.queue_free()
 		call_deferred("check_remaining_balls")
 
 func start_phase(phase):
@@ -271,8 +279,9 @@ func start_phase(phase):
 	if phase > 0:
 		ball_speed = bola.start_speed + 18
 		brick_hits += 1
-		spawn_chance -= 0.1		
-		show_upgrade_panel()
+		spawn_chance -= 0.1
+		if !winner:
+			show_upgrade_panel()
 
 func check_bricks():
 	print("bricks restantes:", bricks.get_child_count())
@@ -315,18 +324,6 @@ func animate_press(button):
 	var tween = create_tween()
 	tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.05)
 	tween.tween_property(button, "scale", Vector2(1, 1), 0.05)
-	
-#func spawn_extra_ball():
-	#var new_ball = ball_scene.instantiate()
-	#add_child(new_ball)
-#
-	#new_ball.player = player
-	#new_ball.paddle = paddle
-	#new_ball.global_position = ball.global_position
-#
-	#new_ball.is_stuck = false
-	#new_ball.speed = ball_speed
-	#new_ball.velocity = Vector2(-0.6, -1).normalized() * ball_speed
 
 func spawn_extra_ball():
 	print("spawn_extra_ball chamada")
@@ -346,6 +343,7 @@ func spawn_extra_ball():
 	ball_script.global_position = paddle.global_position + Vector2(20, -10)
 	ball_script.player = player
 	ball_script.is_stuck = false
+	ball_script.is_extra_ball = true	
 	ball_script.speed = ball_speed
 	ball_script.velocity = Vector2(-0.6, -1).normalized() * ball_speed
 

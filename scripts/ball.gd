@@ -13,7 +13,10 @@ var start_direction := Vector2(0.1, -1).normalized()
 @onready var paddle: Node2D = player_root.get_node("paddle")
 @onready var hit_sound = $"../../hit"
 var magnet_enabled := false
+var is_extra_ball := false
+var piercing_enabled := false
 
+@onready var texture := $texture
 
 func _ready():
 	add_to_group("ball")
@@ -42,13 +45,15 @@ func _physics_process(delta):
 		if collider.name == "paddle":
 			if magnet_enabled:
 				stick_to_player(speed)
-				return
+				return				
 			hit_sound.play()
 			
 		
 		if collider.has_method("hit"):
 			collider.hit()
 			speed += 3
+			if piercing_enabled:
+				return			
 		velocity = velocity.bounce(collision.get_normal()).normalized() * speed
 
 func launch():
@@ -73,6 +78,11 @@ func stick_to_player(speed: float):
 func enable_magnet():
 	magnet_enabled = true
 	print("Magnet enabled")	
+	
+func enable_piercing():
+	piercing_enabled = true
+	texture.modulate = Color(1.0, 0.5, 0.2)
+	print("Piercing enabled")	
 		
 signal launched
 
