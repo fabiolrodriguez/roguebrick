@@ -58,6 +58,13 @@ var endless := false
 @onready var option2_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2
 @onready var option3_button = $UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3
 @export var ball_scene: PackedScene
+
+@onready var lives_container = $hud/LivesContainer
+var heart_texture = preload("res://assets/heart.png")
+
+var rng = RandomNumberGenerator.new()
+var brick_hits_rng := 1
+
 var available_upgrades = [
 	"bigger_paddle",
 	"faster_ball",
@@ -168,13 +175,21 @@ func _process(delta):
 		update_timer_ui()
 
 func update_lives_ui():
-	lives_label.text = "LIVES: %d" % lives
+	for child in lives_container.get_children():
+		child.queue_free()
+
+	for i in range(lives):
+		var heart = TextureRect.new()
+		heart.texture = heart_texture
+		heart.custom_minimum_size = Vector2(24, 24)
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lives_container.add_child(heart)	
+	#for i in range(lives_container.get_child_count()):
+		#lives_container.get_child(i).visible = i < lives
+	#lives_label.text = "LIVES: %d" % lives
 	
 func update_level_ui():
-	if phase > 4:
-		level_label.text = "WINNER"
-	else:
-		level_label.text = "LEVEL: %d" % phase	
+	level_label.text = "LEVEL: %d" % phase	
 
 func generate_bricks():
 	
@@ -198,8 +213,14 @@ func generate_bricks():
 			var y = start_position.y + row * (size.y + spacing_y)
 
 			brick.position = Vector2(x, y)
+			print("Brick hits: ", brick_hits)
+			brick_hits_rng = rng.randf_range(1, brick_hits + 1)
+			print("Brick hits  RNG: ", brick_hits_rng)
+
+			if endless:
+				brick_hits = rng.randf_range(1, 5)
 			
-			brick.set_hits(brick_hits)
+			brick.set_hits(brick_hits_rng)
 			brick.destroyed.connect(check_bricks)
 
 func _on_ball_launched():
@@ -282,13 +303,14 @@ func start_phase(phase):
 	update_level_ui()
 	if phase > 1:
 		if endless:
-			ball_speed = bola.start_speed + 18
-			brick_hits += 0.5
+			ball_speed = bola.start_speed + 10
+			#brick_hits = rng.randf_range(1, 5)
 			spawn_chance = spawn_chance
 		else:
 			ball_speed = bola.start_speed + 18
 			brick_hits += 1
-			spawn_chance -= 0.1
+			#brick_hits_rng = rng.randf_range(1, brick_hits)
+			spawn_chance -= 0.05
 		if !winner:
 			show_upgrade_panel()
 
