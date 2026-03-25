@@ -2,9 +2,15 @@
 
 [ext_resource type="Script" uid="uid://cwgaiqyb68qpy" path="res://scripts/brick.gd" id="1_5l4w1"]
 [ext_resource type="Texture2D" uid="uid://b7scj886vrs45" path="res://assets/brick02.png" id="2_0w5h4"]
+[ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="3_7mekc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurt7"]
 size = Vector2(120, 33)
+
+[sub_resource type="LabelSettings" id="LabelSettings_c34n8"]
+font = ExtResource("3_7mekc")
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [node name="brick" type="StaticBody2D" unique_id=97388442]
 script = ExtResource("1_5l4w1")
@@ -16,3 +22,11 @@ shape = SubResource("RectangleShape2D_jurt7")
 [node name="texture" type="Sprite2D" parent="." unique_id=1893484215]
 position = Vector2(-0.26811594, -0.36585367)
 texture = ExtResource("2_0w5h4")
+
+[node name="Label" type="Label" parent="." unique_id=753584564]
+offset_left = -20.0
+offset_top = -13.0
+offset_right = 20.0
+offset_bottom = 10.0
+label_settings = SubResource("LabelSettings_c34n8")
+horizontal_alignment = 1

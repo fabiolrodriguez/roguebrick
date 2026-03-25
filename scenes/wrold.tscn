@@ -23,14 +23,20 @@ size = Vector2(677, 13)
 [sub_resource type="LabelSettings" id="LabelSettings_f3pje"]
 font = ExtResource("5_w7a3i")
 font_size = 14
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_n654h"]
 font = ExtResource("5_w7a3i")
 font_size = 14
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_vdhx6"]
 font = ExtResource("5_w7a3i")
 font_size = 22
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
 font = ExtResource("5_w7a3i")
@@ -169,18 +175,25 @@ label_settings = SubResource("LabelSettings_x26i3")
 process_mode = 2
 
 [node name="restart" type="Button" parent="win" unique_id=1638849918]
-offset_left = 186.0
+offset_left = 175.0
 offset_top = 254.0
-offset_right = 261.0
+offset_right = 250.0
 offset_bottom = 285.0
 text = "RESTART"
 
 [node name="quit" type="Button" parent="win" unique_id=388769189]
-offset_left = 385.0
+offset_left = 401.0
 offset_top = 253.0
-offset_right = 460.0
+offset_right = 476.0
 offset_bottom = 284.0
 text = "QUIT"
+
+[node name="endless" type="Button" parent="win" unique_id=76525584]
+offset_left = 263.0
+offset_top = 253.0
+offset_right = 392.0
+offset_bottom = 284.0
+text = "ENDLESS MODE"
 
 [node name="title" type="Label" parent="win" unique_id=1137587799]
 offset_left = 211.0
@@ -285,6 +298,7 @@ volume_db = -6.0
 [connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="win/endless" to="." method="_on_endless_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" to="." method="_on_option_1_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_2_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_3_pressed"]

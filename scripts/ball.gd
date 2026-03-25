@@ -79,10 +79,19 @@ func enable_magnet():
 	magnet_enabled = true
 	print("Magnet enabled")	
 	
+func disable_magnet():
+	magnet_enabled = false
+	print("Magnet disabled")		
+	
 func enable_piercing():
 	piercing_enabled = true
 	texture.modulate = Color(1.0, 0.5, 0.2)
-	print("Piercing enabled")	
+	print("Piercing enabled")
+	
+func disable_piercing():
+	piercing_enabled = false
+	texture.modulate = Color(1, 1, 1, 1)
+	print("Piercing disabled")		
 		
 signal launched
 

@@ -48,6 +48,7 @@ var timer_started_once := false
 var has_multiball_upgrade := false
 
 var winner := false
+var endless := false
 
 @onready var timer_label = $hud/TimerLabel
 
@@ -247,7 +248,7 @@ func check_lives():
 		get_tree().paused = true
 		
 func check_win():
-	if phase > 4:
+	if phase > 4 and !endless:
 		winner = true
 		print("WINNER")
 		win_menu.visible = true
@@ -266,6 +267,9 @@ func _on_deadzone_body_entered(body):
 		if dead_menu.visible == false:
 			deadzone_sound.play()
 		await get_tree().create_timer(0.5).timeout
+		# disable upgrades
+		bola.disable_magnet()
+		bola.disable_piercing()
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
 		call_deferred("check_remaining_balls")
@@ -276,10 +280,15 @@ func start_phase(phase):
 	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
-	if phase > 0:
-		ball_speed = bola.start_speed + 18
-		brick_hits += 1
-		spawn_chance -= 0.1
+	if phase > 1:
+		if endless:
+			ball_speed = bola.start_speed + 18
+			brick_hits += 0.5
+			spawn_chance = spawn_chance
+		else:
+			ball_speed = bola.start_speed + 18
+			brick_hits += 1
+			spawn_chance -= 0.1
 		if !winner:
 			show_upgrade_panel()
 
@@ -297,6 +306,13 @@ func _on_restart_pressed() -> void:
 	
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+func _on_endless_pressed() -> void:
+	endless = true
+	winner = false
+	win_menu.visible = false
+	get_tree().paused = false
+	start_phase(5)
 
 func _on_option_1_pressed() -> void:
 	animate_press(option1_button)
