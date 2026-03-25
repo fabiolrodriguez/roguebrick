@@ -22,7 +22,7 @@ func hit():
 		destroy_brick.play()
 		destroyed.emit()
 		play_destroy_effect()
-		#queue_free()
+		queue_free()
 	else:
 		hit_brick.play()
 		update_visual()

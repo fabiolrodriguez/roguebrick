@@ -291,6 +291,7 @@ func _on_deadzone_body_entered(body):
 		# disable upgrades
 		bola.disable_magnet()
 		bola.disable_piercing()
+		await get_tree().create_timer(1).timeout
 		bola.call_deferred("stick_to_player", ball_speed)
 		timer_running = false
 		call_deferred("check_remaining_balls")
@@ -398,4 +399,5 @@ func check_remaining_balls():
 		if lives <= 0:
 			check_lives()
 		else:
+			await get_tree().create_timer(1).timeout
 			bola.call_deferred("stick_to_player", ball_speed)
