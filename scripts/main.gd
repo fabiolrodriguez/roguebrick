@@ -23,6 +23,8 @@ extends Node2D
 @onready var level_label = $hud/Label
 @onready var dead_menu = $dead
 @onready var win_menu = $win
+@onready var pause_menu = $pause
+@onready var resume_buttom = $pause/resume
 ## SFX
 @onready var bg_music = $bg
 @onready var button_hover = $button_hover
@@ -75,6 +77,16 @@ var available_upgrades = [
 	"piercing_ball",
 ]
 
+var upgrade_icons = {
+	"bigger_paddle": preload("res://assets/icons/paddle.png"),
+	"faster_ball": preload("res://assets/icons/speed.png"),
+	"extra_life": preload("res://assets/icons/heart.png"),
+	"faster_player": preload("res://assets/icons/boot.png"),
+	"magnet_ball": preload("res://assets/icons/magnet.png"),
+	"multi_ball": preload("res://assets/icons/multiball.png"),
+	"piercing_ball": preload("res://assets/icons/piercing.png")
+}
+
 var current_upgrade_choices: Array = []
 
 func show_upgrade_panel():
@@ -91,10 +103,13 @@ func show_upgrade_panel():
 	current_upgrade_choices.shuffle()
 	current_upgrade_choices = current_upgrade_choices.slice(0, 3)
 
-	option1_button.text = upgrade_to_text(current_upgrade_choices[0])
-	option2_button.text = upgrade_to_text(current_upgrade_choices[1])
-	option3_button.text = upgrade_to_text(current_upgrade_choices[2])
+	#option1_button.text = upgrade_to_text(current_upgrade_choices[0])
+	#option2_button.text = upgrade_to_text(current_upgrade_choices[1])
+	#option3_button.text = upgrade_to_text(current_upgrade_choices[2])
 
+	setup_upgrade_button(option1_button, current_upgrade_choices[0])
+	setup_upgrade_button(option2_button, current_upgrade_choices[1])
+	setup_upgrade_button(option3_button, current_upgrade_choices[2])
 
 func upgrade_to_text(upgrade_id: String) -> String:
 	match upgrade_id:
@@ -234,6 +249,7 @@ func _ready():
 	dead_menu.visible = false
 	win_menu.visible = false
 	upgrade_menu.visible = false
+	pause_menu.visible = false
 	
 	#generate_bricks()
 	# connect brick to send the get the destroyed signal
@@ -302,7 +318,7 @@ func start_phase(phase):
 	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
-	if phase > 1:
+	if phase > 0:
 		if endless:
 			ball_speed = bola.start_speed + 10
 			#brick_hits = rng.randf_range(1, 5)
@@ -401,3 +417,47 @@ func check_remaining_balls():
 		else:
 			await get_tree().create_timer(1).timeout
 			bola.call_deferred("stick_to_player", ball_speed)
+			
+func _unhandled_input(event):
+	if event.is_action_pressed("pause_game"):
+		toggle_pause()
+		
+func toggle_pause():
+	get_tree().paused = true
+	pause_menu.visible = true
+	
+func _on_resume_pressed() -> void:
+	get_tree().paused = false
+	pause_menu.visible = false
+
+func setup_upgrade_button(button, upgrade_id):
+	var icon = button.get_node("CenterContainer/VBoxContainer/TextureRect")
+	var title = button.get_node("CenterContainer/VBoxContainer/Title")
+	var desc = button.get_node("CenterContainer/VBoxContainer/Description")
+
+	icon.texture = upgrade_icons.get(upgrade_id)
+
+	title.text = get_upgrade_title(upgrade_id)
+	desc.text = get_upgrade_description(upgrade_id)
+	
+func get_upgrade_title(id):
+	match id:
+		"bigger_paddle": return "BIGGER"
+		"faster_ball": return "SLOWER"
+		"extra_life": return "+1 UP"
+		"faster_player": return "FASTER"
+		"magnet_ball": return "MAGNET"
+		"multi_ball": return "MULTI"
+		"piercing_ball": return "PIERCE"
+		_: return id
+
+func get_upgrade_description(id):
+	match id:
+		"bigger_paddle": return "+20% Wider"
+		"faster_ball": return "-20 speed"
+		"extra_life": return "+1 life"
+		"faster_player": return "+60 speed"
+		"magnet_ball": return "sticks"
+		"multi_ball": return "+1 ball"
+		"piercing_ball": return "pierce"
+		_: return ""		

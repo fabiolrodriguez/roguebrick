@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
 [ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
 [ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="5_w7a3i"]
+[ext_resource type="Texture2D" path="res://assets/transparent_background/cycle_transparent.png" id="6_06i83"]
 [ext_resource type="AudioStream" uid="uid://db1xcb8jghd27" path="res://assets/hit_brick.mp3" id="7_f3pje"]
 [ext_resource type="AudioStream" uid="uid://jryeatwr5egh" path="res://assets/game_over.mp3" id="7_sehhi"]
 [ext_resource type="AudioStream" uid="uid://ct8rk5fq67bbc" path="res://assets/bg2.mp3" id="7_w7a3i"]
@@ -45,7 +46,14 @@ shadow_size = 3
 [sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
 font = ExtResource("5_w7a3i")
 font_size = 23
-font_color = Color(0.7294118, 0.74509805, 0, 1)
+font_color = Color(0.82502115, 0.2354809, 3.85046e-07, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ajrab"]
+font = ExtResource("5_w7a3i")
+font_size = 20
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_7vf5t"]
 font = ExtResource("5_w7a3i")
@@ -162,12 +170,26 @@ theme_override_constants/separation = 6
 [node name="dead" type="CanvasLayer" parent="." unique_id=2122854333]
 process_mode = 2
 
+[node name="ColorRect" type="ColorRect" parent="dead" unique_id=1010680119]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 35.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.53333336)
+
 [node name="restart" type="Button" parent="dead" unique_id=873391574]
 offset_left = 186.0
 offset_top = 254.0
 offset_right = 261.0
 offset_bottom = 285.0
 text = "RESTART"
+icon = ExtResource("6_06i83")
+expand_icon = true
 
 [node name="quit" type="Button" parent="dead" unique_id=2067696824]
 offset_left = 385.0
@@ -181,11 +203,68 @@ offset_left = 223.0
 offset_top = 201.0
 offset_right = 430.0
 offset_bottom = 233.0
-text = "YOU LOSE!"
+text = "GAME OVER!"
 label_settings = SubResource("LabelSettings_x26i3")
+
+[node name="pause" type="CanvasLayer" parent="." unique_id=481035943]
+process_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="pause" unique_id=1549495089]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 35.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.53333336)
+
+[node name="resume" type="Button" parent="pause" unique_id=1863447975]
+offset_left = 181.00002
+offset_top = 235.00002
+offset_right = 557.0
+offset_bottom = 543.0
+scale = Vector2(0.2, 0.2)
+text = "RESUME"
+
+[node name="restart" type="Button" parent="pause" unique_id=586514199]
+offset_left = 294.0
+offset_top = 254.0
+offset_right = 369.0
+offset_bottom = 285.0
+text = "RESTART"
+
+[node name="quit" type="Button" parent="pause" unique_id=1158852627]
+offset_left = 385.0
+offset_top = 253.0
+offset_right = 460.0
+offset_bottom = 284.0
+text = "QUIT"
+
+[node name="title" type="Label" parent="pause" unique_id=905728831]
+offset_left = 274.0
+offset_top = 202.0
+offset_right = 414.0
+offset_bottom = 234.0
+text = "PAUSE"
+label_settings = SubResource("LabelSettings_ajrab")
 
 [node name="win" type="CanvasLayer" parent="." unique_id=350136966]
 process_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="win" unique_id=575033407]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 35.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.53333336)
 
 [node name="restart" type="Button" parent="win" unique_id=1638849918]
 offset_left = 175.0
@@ -241,9 +320,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -11.0
-offset_top = -6.0
+offset_top = 4.0
 offset_right = 35.0
-offset_bottom = 29.0
+offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
@@ -269,26 +348,126 @@ label_settings = SubResource("LabelSettings_7vf5t")
 [node name="HBoxContainer" type="HBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1922784506]
 layout_mode = 2
 
-[node name="option1" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=368883374]
+[node name="option1" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=153560836]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
-text = "BIGGER!"
+icon_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" unique_id=166542425]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 28.0
+offset_right = 111.999985
+offset_bottom = 217.99998
+scale = Vector2(0.8, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1/CenterContainer" unique_id=1129132504]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1/CenterContainer/VBoxContainer" unique_id=68197923]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1/CenterContainer/VBoxContainer" unique_id=481365227]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1/CenterContainer/VBoxContainer" unique_id=2014947024]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13682577, 0.13682574, 0.13682571, 1)
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 
 [node name="option2" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1443900978]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
-text = "BIGGER!"
+icon_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" unique_id=1493365796]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 31.0
+offset_right = 107.75
+offset_bottom = 219.74998
+scale = Vector2(0.8, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2/CenterContainer" unique_id=105920301]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2/CenterContainer/VBoxContainer" unique_id=1799833090]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2/CenterContainer/VBoxContainer" unique_id=325186012]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2/CenterContainer/VBoxContainer" unique_id=2046363162]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13725491, 0.13725491, 0.13725491, 1)
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 
 [node name="option3" type="Button" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=658247876]
 custom_minimum_size = Vector2(110, 200)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_wsg7y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_sehhi")
-text = "BIGGER!"
+icon_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" unique_id=254458685]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 26.0
+offset_right = 109.75
+offset_bottom = 223.49998
+scale = Vector2(0.8, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3/CenterContainer" unique_id=1084016659]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3/CenterContainer/VBoxContainer" unique_id=2089859095]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3/CenterContainer/VBoxContainer" unique_id=1753875355]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3/CenterContainer/VBoxContainer" unique_id=238369466]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13725491, 0.13725491, 0.13725491, 1)
+theme_override_fonts/font = ExtResource("5_w7a3i")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 
 [node name="hit_brick" type="AudioStreamPlayer" parent="." unique_id=826432983]
 stream = ExtResource("7_f3pje")
@@ -309,6 +488,9 @@ volume_db = -6.0
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
 [connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="pause/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="pause/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="pause/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="win/endless" to="." method="_on_endless_pressed"]
