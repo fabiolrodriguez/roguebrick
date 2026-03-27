@@ -313,6 +313,7 @@ layout_mode = 2
 layout_mode = 2
 text = "YOU WIN!!!"
 label_settings = SubResource("LabelSettings_x26i3")
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="win/PanelContainer/MarginContainer/VBoxContainer" unique_id=1221061453]
 layout_mode = 2

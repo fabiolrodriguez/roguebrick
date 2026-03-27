@@ -1,0 +1,203 @@
+[gd_scene format=3 uid="uid://d0umbtcupe156"]
+
+[ext_resource type="Script" uid="uid://bwj4ja8ml2g4" path="res://scripts/main_menu.gd" id="1_2wh52"]
+[ext_resource type="Texture2D" uid="uid://jq55unp6xmw1" path="res://assets/bg-resized.png" id="1_yqorp"]
+[ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="2_0ykhv"]
+
+[node name="MainMenu" type="Node2D" unique_id=1960429733]
+script = ExtResource("1_2wh52")
+
+[node name="background" type="Sprite2D" parent="." unique_id=1400077535]
+position = Vector2(328.99994, 251.99998)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("1_yqorp")
+
+[node name="MainMenu" type="CanvasLayer" parent="." unique_id=1938348087]
+
+[node name="Title" type="Label" parent="MainMenu" unique_id=617337229]
+offset_left = 174.0
+offset_top = 88.5
+offset_right = 474.0
+offset_bottom = 118.5
+theme_override_colors/font_color = Color(1, 1, 0.3137255, 1)
+theme_override_colors/font_shadow_color = Color(0.0056611504, 0.0056611514, 0.00566115, 0)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 7
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 30
+text = "ROGUEBRICK"
+
+[node name="Label" type="Label" parent="MainMenu" unique_id=145241533]
+offset_left = 68.0
+offset_top = 132.0
+offset_right = 581.0
+offset_bottom = 155.0
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 12
+text = "A classic Breakout with roguelike elements"
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu" unique_id=1298340592]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -67.5
+offset_right = 68.0
+offset_bottom = 67.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CenterContainer" unique_id=512672324]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer" unique_id=1267190077]
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "START"
+
+[node name="ControlButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer" unique_id=1197851616]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "CONTROLS"
+
+[node name="SettingsButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer" unique_id=1737836986]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer" unique_id=2076827236]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "QUIT"
+
+[node name="Controls" type="CanvasLayer" parent="." unique_id=929566947]
+
+[node name="ColorRect" type="ColorRect" parent="Controls" unique_id=368836452]
+offset_right = 665.0
+offset_bottom = 505.0
+color = Color(0, 0, 0, 0.53333336)
+
+[node name="PanelContainer" type="PanelContainer" parent="Controls" unique_id=854040234]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -46.5
+offset_right = 160.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Controls/PanelContainer" unique_id=1683701584]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/PanelContainer/CenterContainer" unique_id=980603137]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Controls/PanelContainer/CenterContainer/VBoxContainer" unique_id=1093097364]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 20
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="Title2" type="Label" parent="Controls/PanelContainer/CenterContainer/VBoxContainer" unique_id=1504754904]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="Text" type="Label" parent="Controls/PanelContainer/CenterContainer/VBoxContainer" unique_id=1852009013]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "Arrows - Move
+Space  - Release Ball
+ESC    - Pause
+"
+
+[node name="BackButton" type="Button" parent="Controls/PanelContainer/CenterContainer/VBoxContainer" unique_id=864620610]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "Back"
+
+[node name="Settings" type="CanvasLayer" parent="." unique_id=1992657905]
+
+[node name="ColorRect" type="ColorRect" parent="Settings" unique_id=2065112759]
+offset_left = -5.0
+offset_top = -3.0
+offset_right = 660.0
+offset_bottom = 502.0
+color = Color(0, 0, 0, 0.53333336)
+
+[node name="PanelContainer" type="PanelContainer" parent="Settings" unique_id=737905149]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -46.5
+offset_right = 160.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Settings/PanelContainer" unique_id=465936362]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/PanelContainer/CenterContainer" unique_id=722948277]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=580645889]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 20
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Title2" type="Label" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=558953786]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=1086405465]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "FullScreen"
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=443844562]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=38967748]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=1376986157]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.7
+
+[node name="BackButton" type="Button" parent="Settings/PanelContainer/CenterContainer/VBoxContainer" unique_id=390749104]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ykhv")
+text = "Back"
+
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/ControlButton" to="." method="_on_control_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Controls/PanelContainer/CenterContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="toggled" from="Settings/PanelContainer/CenterContainer/VBoxContainer/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="changed" from="Settings/PanelContainer/CenterContainer/VBoxContainer/HSlider" to="." method="_on_h_slider_changed"]
+[connection signal="pressed" from="Settings/PanelContainer/CenterContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
