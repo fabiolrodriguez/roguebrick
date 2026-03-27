@@ -6,11 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://s6uj340am82q" path="res://scenes/ball.tscn" id="3_ninex"]
 [ext_resource type="AudioStream" uid="uid://cvhmsmg4lnp61" path="res://assets/hit.mp3" id="5_vdhx6"]
 [ext_resource type="FontFile" uid="uid://ihks70w5dygr" path="res://assets/PublicPixel-rv0pA.ttf" id="5_w7a3i"]
-[ext_resource type="Texture2D" path="res://assets/transparent_background/cycle_transparent.png" id="6_06i83"]
+[ext_resource type="Texture2D" uid="uid://c3aavyyfd1w3l" path="res://assets/pixelbuttons/Pixel Buttons/Play_Pushed.png" id="6_j8gsw"]
 [ext_resource type="AudioStream" uid="uid://db1xcb8jghd27" path="res://assets/hit_brick.mp3" id="7_f3pje"]
+[ext_resource type="Texture2D" uid="uid://hp04iv3k2fsn" path="res://assets/pixelbuttons/Pixel Buttons/Music_Prev_Pushed.png" id="7_ft7vk"]
 [ext_resource type="AudioStream" uid="uid://jryeatwr5egh" path="res://assets/game_over.mp3" id="7_sehhi"]
 [ext_resource type="AudioStream" uid="uid://ct8rk5fq67bbc" path="res://assets/bg2.mp3" id="7_w7a3i"]
 [ext_resource type="AudioStream" uid="uid://l7g4b6mv3xfm" path="res://assets/deadzone.mp3" id="8_ajrab"]
+[ext_resource type="Texture2D" uid="uid://cql5rspb4sn0s" path="res://assets/pixelbuttons/Pixel Buttons/Cross_Pushed.png" id="8_ft7vk"]
+[ext_resource type="Texture2D" uid="uid://075ciql6kcue" path="res://assets/pixelbuttons/Pixel Buttons/Fast_Forward_Pushed.png" id="9_dt24f"]
 [ext_resource type="AudioStream" uid="uid://cvn3lm2ykrbp3" path="res://assets/destroy.mp3" id="9_n654h"]
 [ext_resource type="AudioStream" uid="uid://c6f5i82w3u4kj" path="res://assets/shine.mp3" id="10_wsg7y"]
 [ext_resource type="AudioStream" uid="uid://c80k8g5gnphdu" path="res://assets/chosed.mp3" id="11_sehhi"]
@@ -39,14 +42,14 @@ shadow_size = 3
 [sub_resource type="LabelSettings" id="LabelSettings_vdhx6"]
 font = ExtResource("5_w7a3i")
 font_size = 22
-outline_size = 4
+outline_size = 6
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 3
 
 [sub_resource type="LabelSettings" id="LabelSettings_x26i3"]
 font = ExtResource("5_w7a3i")
 font_size = 23
-font_color = Color(0.82502115, 0.2354809, 3.85046e-07, 1)
+font_color = Color(0.8862745, 0.8901961, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ajrab"]
 font = ExtResource("5_w7a3i")
@@ -175,36 +178,49 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -11.0
-offset_top = -6.0
+offset_top = -13.0
 offset_right = 35.0
-offset_bottom = 29.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
 
-[node name="restart" type="Button" parent="dead" unique_id=873391574]
-offset_left = 186.0
-offset_top = 254.0
-offset_right = 261.0
-offset_bottom = 285.0
-text = "RESTART"
-icon = ExtResource("6_06i83")
-expand_icon = true
+[node name="PanelContainer" type="PanelContainer" parent="dead" unique_id=995383835]
+custom_minimum_size = Vector2(36, 36)
+offset_left = 212.0
+offset_top = 164.0
+offset_right = 459.0
+offset_bottom = 306.0
 
-[node name="quit" type="Button" parent="dead" unique_id=2067696824]
-offset_left = 385.0
-offset_top = 253.0
-offset_right = 460.0
-offset_bottom = 284.0
-text = "QUIT"
+[node name="MarginContainer" type="MarginContainer" parent="dead/PanelContainer" unique_id=1432178857]
+layout_mode = 2
 
-[node name="title" type="Label" parent="dead" unique_id=1798592188]
-offset_left = 223.0
-offset_top = 201.0
-offset_right = 430.0
-offset_bottom = 233.0
+[node name="VBoxContainer" type="VBoxContainer" parent="dead/PanelContainer/MarginContainer" unique_id=1609663850]
+layout_mode = 2
+
+[node name="title" type="Label" parent="dead/PanelContainer/MarginContainer/VBoxContainer" unique_id=1798592188]
+layout_mode = 2
 text = "GAME OVER!"
 label_settings = SubResource("LabelSettings_x26i3")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="dead/PanelContainer/MarginContainer/VBoxContainer" unique_id=126553957]
+layout_mode = 2
+alignment = 1
+
+[node name="restart" type="Button" parent="dead/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=378730232]
+layout_mode = 2
+text = "RESTART"
+icon = ExtResource("7_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="quit" type="Button" parent="dead/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1559615580]
+layout_mode = 2
+text = "QUIT"
+icon = ExtResource("8_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
 
 [node name="pause" type="CanvasLayer" parent="." unique_id=481035943]
 process_mode = 2
@@ -214,42 +230,56 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -11.0
-offset_top = -6.0
+offset_top = -11.0
 offset_right = 35.0
-offset_bottom = 29.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
 
-[node name="resume" type="Button" parent="pause" unique_id=1863447975]
-offset_left = 181.00002
-offset_top = 235.00002
-offset_right = 557.0
-offset_bottom = 543.0
-scale = Vector2(0.2, 0.2)
-text = "RESUME"
+[node name="PanelContainer" type="PanelContainer" parent="pause" unique_id=66322275]
+custom_minimum_size = Vector2(36, 36)
+offset_left = 212.0
+offset_top = 164.0
+offset_right = 459.0
+offset_bottom = 306.0
 
-[node name="restart" type="Button" parent="pause" unique_id=586514199]
-offset_left = 294.0
-offset_top = 254.0
-offset_right = 369.0
-offset_bottom = 285.0
-text = "RESTART"
+[node name="MarginContainer" type="MarginContainer" parent="pause/PanelContainer" unique_id=1334132888]
+layout_mode = 2
 
-[node name="quit" type="Button" parent="pause" unique_id=1158852627]
-offset_left = 385.0
-offset_top = 253.0
-offset_right = 460.0
-offset_bottom = 284.0
-text = "QUIT"
+[node name="VBoxContainer" type="VBoxContainer" parent="pause/PanelContainer/MarginContainer" unique_id=1321798034]
+layout_mode = 2
 
-[node name="title" type="Label" parent="pause" unique_id=905728831]
-offset_left = 274.0
-offset_top = 202.0
-offset_right = 414.0
-offset_bottom = 234.0
+[node name="title" type="Label" parent="pause/PanelContainer/MarginContainer/VBoxContainer" unique_id=905728831]
+layout_mode = 2
 text = "PAUSE"
 label_settings = SubResource("LabelSettings_ajrab")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pause/PanelContainer/MarginContainer/VBoxContainer" unique_id=1094901160]
+layout_mode = 2
+alignment = 1
+
+[node name="resume" type="Button" parent="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1863447975]
+layout_mode = 2
+text = "RESUME"
+icon = ExtResource("6_j8gsw")
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="restart" type="Button" parent="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=586514199]
+layout_mode = 2
+text = "RESTART"
+icon = ExtResource("7_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="quit" type="Button" parent="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1158852627]
+layout_mode = 2
+text = "QUIT"
+icon = ExtResource("8_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
 
 [node name="win" type="CanvasLayer" parent="." unique_id=350136966]
 process_mode = 2
@@ -266,34 +296,48 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
 
-[node name="restart" type="Button" parent="win" unique_id=1638849918]
-offset_left = 175.0
-offset_top = 254.0
-offset_right = 250.0
-offset_bottom = 285.0
-text = "RESTART"
+[node name="PanelContainer" type="PanelContainer" parent="win" unique_id=25911821]
+custom_minimum_size = Vector2(36, 36)
+offset_left = 212.0
+offset_top = 164.0
+offset_right = 459.0
+offset_bottom = 306.0
 
-[node name="quit" type="Button" parent="win" unique_id=388769189]
-offset_left = 401.0
-offset_top = 253.0
-offset_right = 476.0
-offset_bottom = 284.0
-text = "QUIT"
+[node name="MarginContainer" type="MarginContainer" parent="win/PanelContainer" unique_id=2044322366]
+layout_mode = 2
 
-[node name="endless" type="Button" parent="win" unique_id=76525584]
-offset_left = 263.0
-offset_top = 253.0
-offset_right = 392.0
-offset_bottom = 284.0
-text = "ENDLESS MODE"
+[node name="VBoxContainer" type="VBoxContainer" parent="win/PanelContainer/MarginContainer" unique_id=868811372]
+layout_mode = 2
 
-[node name="title" type="Label" parent="win" unique_id=1137587799]
-offset_left = 211.0
-offset_top = 201.0
-offset_right = 441.0
-offset_bottom = 233.0
+[node name="title" type="Label" parent="win/PanelContainer/MarginContainer/VBoxContainer" unique_id=1137587799]
+layout_mode = 2
 text = "YOU WIN!!!"
 label_settings = SubResource("LabelSettings_x26i3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="win/PanelContainer/MarginContainer/VBoxContainer" unique_id=1221061453]
+layout_mode = 2
+alignment = 1
+
+[node name="restart" type="Button" parent="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2069631531]
+layout_mode = 2
+text = "RESTART"
+icon = ExtResource("7_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="endless" type="Button" parent="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=76525584]
+layout_mode = 2
+text = "ENDLESS MODE"
+icon = ExtResource("9_dt24f")
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="quit" type="Button" parent="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=298693920]
+layout_mode = 2
+text = "QUIT"
+icon = ExtResource("8_ft7vk")
+icon_alignment = 1
+vertical_icon_alignment = 2
 
 [node name="hit" type="AudioStreamPlayer" parent="." unique_id=418023205]
 stream = ExtResource("5_vdhx6")
@@ -320,9 +364,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -11.0
-offset_top = 4.0
+offset_top = -3.0
 offset_right = 35.0
-offset_bottom = 39.0
+offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.53333336)
@@ -486,14 +530,14 @@ stream = ExtResource("11_sehhi")
 volume_db = -6.0
 
 [connection signal="body_entered" from="deadzone" to="." method="_on_deadzone_body_entered"]
-[connection signal="pressed" from="dead/restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="dead/quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="pause/resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="pause/restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="pause/quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="win/restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="win/quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="win/endless" to="." method="_on_endless_pressed"]
+[connection signal="pressed" from="dead/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="dead/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/endless" to="." method="_on_endless_pressed"]
+[connection signal="pressed" from="win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option1" to="." method="_on_option_1_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option2" to="." method="_on_option_2_pressed"]
 [connection signal="pressed" from="UpgradePanel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/option3" to="." method="_on_option_3_pressed"]
