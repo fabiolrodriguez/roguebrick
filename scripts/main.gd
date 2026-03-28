@@ -62,6 +62,11 @@ var endless := false
 @export var ball_scene: PackedScene
 
 @onready var lives_container = $hud/LivesContainer
+
+@onready var resume_button = $pause/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/resume
+@onready var restart_button = $dead/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/restart
+@onready var restart_button_win = $win/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/restart
+
 var heart_texture = preload("res://assets/heart.png")
 
 var rng = RandomNumberGenerator.new()
@@ -110,6 +115,8 @@ func show_upgrade_panel():
 	setup_upgrade_button(option1_button, current_upgrade_choices[0])
 	setup_upgrade_button(option2_button, current_upgrade_choices[1])
 	setup_upgrade_button(option3_button, current_upgrade_choices[2])
+	
+	option1_button.grab_focus()
 
 func upgrade_to_text(upgrade_id: String) -> String:
 	match upgrade_id:
@@ -283,14 +290,16 @@ func check_lives():
 		game_over.play()
 		dead_menu.visible = true
 		get_tree().paused = true
+		restart_button.grab_focus()
 		
 func check_win():
-	if phase > 4 and !endless:
+	if phase > 5 and !endless:
 		winner = true
 		print("WINNER")
 		win_menu.visible = true
 		get_tree().paused = true
-		timer_running = false	
+		timer_running = false
+		restart_button_win.grab_focus()
 
 func _on_deadzone_body_entered(body):
 	if body.is_in_group("ball"):
@@ -318,13 +327,13 @@ func start_phase(phase):
 	bola.call_deferred("stick_to_player", ball_speed)
 	generate_bricks()
 	update_level_ui()
-	if phase > 0:
+	if phase > 1:
 		if endless:
 			ball_speed = bola.start_speed + 10
 			#brick_hits = rng.randf_range(1, 5)
 			spawn_chance = spawn_chance
 		else:
-			ball_speed = bola.start_speed + 18
+			ball_speed = bola.start_speed + 10
 			brick_hits += 1
 			#brick_hits_rng = rng.randf_range(1, brick_hits)
 			spawn_chance -= 0.05
@@ -421,6 +430,7 @@ func check_remaining_balls():
 func _unhandled_input(event):
 	if event.is_action_pressed("pause_game"):
 		toggle_pause()
+		resume_button.grab_focus()
 		
 func toggle_pause():
 	get_tree().paused = true

@@ -5,10 +5,13 @@ extends Node2D
 @onready var settings_menu = $Settings
 @onready var volume = $Settings/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer/HSlider
 @onready var fullscreen = $Settings/PanelContainer/CenterContainer/VBoxContainer/CheckBox
+@onready var start_button = $MainMenu/CenterContainer/VBoxContainer/StartButton
+@onready var back_button = $Controls/PanelContainer/CenterContainer/VBoxContainer/BackButton
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	controls_menu.visible = false
 	settings_menu.visible = false
+	start_button.grab_focus()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -25,15 +28,18 @@ func _on_quit_button_pressed() -> void:
 func _on_control_button_pressed() -> void:
 	main_menu.visible = false
 	controls_menu.visible = true
+	back_button.grab_focus()
 
 func _on_back_button_pressed() -> void:
 	main_menu.visible = true
 	controls_menu.visible = false
-	settings_menu.visible = false 
+	settings_menu.visible = false
+	start_button.grab_focus()
 
 func _on_settings_button_pressed() -> void:
 	main_menu.visible = false
 	settings_menu.visible = true
+	fullscreen.grab_focus()
 
 func _on_h_slider_changed(value) -> void:
 	print(value)
@@ -42,8 +48,8 @@ func _on_h_slider_changed(value) -> void:
 func _on_check_box_toggled(pressed) -> void:
 	if pressed:
 		print("fullscreen set")
-		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
-		#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		#DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
+		#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
