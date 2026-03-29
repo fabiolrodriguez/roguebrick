@@ -27,9 +27,7 @@ func hit():
 		hit_brick.play()
 		update_visual()
 		
-
 func update_visual():
-	#label.visible = hits > 1
 	label.text = str(hits)
 	match hits:
 		1:

@@ -7,23 +7,20 @@ extends Node2D
 @onready var fullscreen = $Settings/PanelContainer/CenterContainer/VBoxContainer/CheckBox
 @onready var start_button = $MainMenu/CenterContainer/VBoxContainer/StartButton
 @onready var back_button = $Controls/PanelContainer/CenterContainer/VBoxContainer/BackButton
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	controls_menu.visible = false
 	settings_menu.visible = false
 	start_button.grab_focus()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func _on_start_button_pressed():
 	get_tree().change_scene_to_file("res://scenes/wrold.tscn")
 
-
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
-
 
 func _on_control_button_pressed() -> void:
 	main_menu.visible = false
@@ -42,14 +39,10 @@ func _on_settings_button_pressed() -> void:
 	fullscreen.grab_focus()
 
 func _on_h_slider_changed(value) -> void:
-	print(value)
 	AudioServer.set_bus_volume_db(0, linear_to_db(value))
 
 func _on_check_box_toggled(pressed) -> void:
 	if pressed:
-		print("fullscreen set")
-		#DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
-		#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)

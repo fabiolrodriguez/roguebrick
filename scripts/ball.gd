@@ -29,9 +29,6 @@ func _physics_process(delta):
 				paddle.global_position.x,
 				paddle.global_position.y - launch_offset_y - 2
 			)
-		#global_position.x = paddle.global_position.x
-		#global_position.y = paddle.global_position.y - launch_offset_y
-		
 
 		if Input.is_action_just_pressed("ui_accept"):
 			launch()
@@ -48,10 +45,9 @@ func _physics_process(delta):
 				return				
 			hit_sound.play()
 			
-		
 		if collider.has_method("hit"):
 			collider.hit()
-			speed += 3
+			speed += 1
 			if piercing_enabled:
 				return			
 		velocity = velocity.bounce(collision.get_normal()).normalized() * speed

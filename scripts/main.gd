@@ -108,10 +108,6 @@ func show_upgrade_panel():
 	current_upgrade_choices.shuffle()
 	current_upgrade_choices = current_upgrade_choices.slice(0, 3)
 
-	#option1_button.text = upgrade_to_text(current_upgrade_choices[0])
-	#option2_button.text = upgrade_to_text(current_upgrade_choices[1])
-	#option3_button.text = upgrade_to_text(current_upgrade_choices[2])
-
 	setup_upgrade_button(option1_button, current_upgrade_choices[0])
 	setup_upgrade_button(option2_button, current_upgrade_choices[1])
 	setup_upgrade_button(option3_button, current_upgrade_choices[2])
@@ -137,7 +133,6 @@ func upgrade_to_text(upgrade_id: String) -> String:
 		_:
 			return upgrade_id
 
-
 func choose_upgrade(index: int):
 	var chosen_upgrade = current_upgrade_choices[index]
 	get_tree().paused = false
@@ -146,20 +141,19 @@ func choose_upgrade(index: int):
 
 	call_deferred("start_new_phase", phase)
 
-
 func apply_upgrade(upgrade_id: String):
 	match upgrade_id:
 		"bigger_paddle": 
 			if paddle.has_method("apply_size_multiplier"):
 				paddle.apply_size_multiplier(1.2)
 		"faster_ball":
-			ball_speed -= 20.0
+			ball_speed -= -20.0
 		"extra_life":
 			lives += 1
 			update_lives_ui()
 		"faster_player":
 			if player.has_method("increase_speed"):
-				player.increase_speed(60.0)
+				player.increase_speed(100)
 		"magnet_ball":
 			print("Entrou no case magnet_ball")
 			if bola.has_method("enable_magnet"):
@@ -171,8 +165,7 @@ func apply_upgrade(upgrade_id: String):
 		"piercing_ball":
 			if bola.has_method("enable_piercing"):
 				bola.enable_piercing()
-		
-			
+					
 func _on_option_1_button_pressed():
 	choose_upgrade(0)
 
@@ -206,9 +199,6 @@ func update_lives_ui():
 		heart.custom_minimum_size = Vector2(24, 24)
 		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		lives_container.add_child(heart)	
-	#for i in range(lives_container.get_child_count()):
-		#lives_container.get_child(i).visible = i < lives
-	#lives_label.text = "LIVES: %d" % lives
 	
 func update_level_ui():
 	level_label.text = "LEVEL: %d" % phase	
@@ -227,8 +217,8 @@ func generate_bricks():
 			
 			var sprite = brick.get_node("texture")
 			var size = sprite.texture.get_size()
-			
 			var brick = brick_scene.instantiate()
+			
 			bricks.add_child(brick)
 
 			var x = start_position.x + col * (size.x + spacing_x)
@@ -257,8 +247,7 @@ func _ready():
 	win_menu.visible = false
 	upgrade_menu.visible = false
 	pause_menu.visible = false
-	
-	#generate_bricks()
+
 	# connect brick to send the get the destroyed signal
 	for brick in bricks.get_children():
 		brick.destroyed.connect(_on_brick_destroyed)
@@ -272,12 +261,11 @@ func _ready():
 	
 	option1_button.mouse_entered.connect(_on_button_hover.bind(option1_button))
 	option1_button.mouse_exited.connect(_on_button_exit.bind(option1_button))
-
 	option2_button.mouse_entered.connect(_on_button_hover.bind(option2_button))
 	option2_button.mouse_exited.connect(_on_button_exit.bind(option2_button))
-
 	option3_button.mouse_entered.connect(_on_button_hover.bind(option3_button))
 	option3_button.mouse_exited.connect(_on_button_exit.bind(option3_button))
+	
 	start_phase(phase)
 
 func _on_brick_destroyed():
@@ -285,7 +273,6 @@ func _on_brick_destroyed():
 	
 func check_lives():
 	if lives <= 0:
-		print("GAME OVER")
 		await get_tree().create_timer(1).timeout
 		game_over.play()
 		dead_menu.visible = true
@@ -293,9 +280,8 @@ func check_lives():
 		restart_button.grab_focus()
 		
 func check_win():
-	if phase > 5 and !endless:
+	if phase > 9 and !endless:
 		winner = true
-		print("WINNER")
 		win_menu.visible = true
 		get_tree().paused = true
 		timer_running = false
@@ -329,13 +315,11 @@ func start_phase(phase):
 	update_level_ui()
 	if phase > 1:
 		if endless:
-			ball_speed = bola.start_speed + 10
-			#brick_hits = rng.randf_range(1, 5)
+			ball_speed = bola.start_speed + 7
 			spawn_chance = spawn_chance
 		else:
-			ball_speed = bola.start_speed + 10
+			ball_speed = bola.start_speed + 7
 			brick_hits += 1
-			#brick_hits_rng = rng.randf_range(1, brick_hits)
 			spawn_chance -= 0.05
 		if !winner:
 			show_upgrade_panel()
@@ -446,7 +430,6 @@ func setup_upgrade_button(button, upgrade_id):
 	var desc = button.get_node("CenterContainer/VBoxContainer/Description")
 
 	icon.texture = upgrade_icons.get(upgrade_id)
-
 	title.text = get_upgrade_title(upgrade_id)
 	desc.text = get_upgrade_description(upgrade_id)
 	
