@@ -280,7 +280,7 @@ func check_lives():
 		restart_button.grab_focus()
 		
 func check_win():
-	if phase > 9 and !endless:
+	if phase > 6 and !endless:
 		winner = true
 		win_menu.visible = true
 		get_tree().paused = true
